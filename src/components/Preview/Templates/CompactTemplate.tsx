@@ -1,0 +1,179 @@
+import React from 'react';
+import type { ResumeData } from '../../../types/cv';
+
+interface TemplateProps {
+  data: ResumeData;
+}
+
+export const CompactTemplate: React.FC<TemplateProps> = ({ data }) => {
+  const { personalDetails, settings } = data;
+  const isVisible = (key: string) => settings.sectionVisibility[key] !== false;
+
+  const contactItems = [
+    personalDetails.email,
+    personalDetails.phone,
+    personalDetails.city && personalDetails.country ? `${personalDetails.city}, ${personalDetails.country}` : personalDetails.location,
+    personalDetails.linkedin,
+    personalDetails.github,
+    personalDetails.website,
+  ].filter(Boolean);
+
+  const renderSectionByKey = (key: string) => {
+    if (!isVisible(key)) return null;
+
+    switch (key) {
+      case 'experience':
+        if (data.experience.length === 0 || !data.experience.some((e) => e.company || e.role)) return null;
+        return (
+          <section key="experience" className="resume-section mb-2.5">
+            <h2 className="text-[11px] font-bold uppercase tracking-wider text-gray-950 border-b border-gray-400 pb-0.5 mb-1">
+              Experience
+            </h2>
+            <div className="space-y-1.5">
+              {data.experience.map((exp) => {
+                if (!exp.company && !exp.role) return null;
+                return (
+                  <div key={exp.id} className="resume-item">
+                    <div className="flex justify-between items-baseline text-[11px]">
+                      <span className="font-bold text-gray-950">
+                        {exp.role} <span className="font-normal text-gray-700">— {exp.company}</span>
+                      </span>
+                      <span className="text-gray-600 text-[10px]">
+                        {exp.startDate} – {exp.current ? 'Present' : exp.endDate || 'Present'}
+                      </span>
+                    </div>
+                    {exp.bullets.length > 0 && (
+                      <ul className="list-disc list-outside ml-3.5 space-y-0.5 text-[11px] text-gray-800 leading-tight">
+                        {exp.bullets.map((b, i) => b.trim() && <li key={i}>{b.trim()}</li>)}
+                      </ul>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+        );
+
+      case 'education':
+        if (data.education.length === 0 || !data.education.some((e) => e.institution || e.degree)) return null;
+        return (
+          <section key="education" className="resume-section mb-2.5">
+            <h2 className="text-[11px] font-bold uppercase tracking-wider text-gray-950 border-b border-gray-400 pb-0.5 mb-1">
+              Education
+            </h2>
+            <div className="space-y-1">
+              {data.education.map((edu) => (
+                <div key={edu.id} className="resume-item text-[11px] flex justify-between">
+                  <span>
+                    <strong>{edu.degree}</strong> {edu.fieldOfStudy ? `in ${edu.fieldOfStudy}` : ''} — {edu.institution}
+                    {edu.gpa ? ` (GPA: ${edu.gpa})` : ''}
+                  </span>
+                  <span className="text-gray-600 text-[10px]">{edu.startDate ? `${edu.startDate} – ` : ''}{edu.endDate || 'Graduated'}</span>
+                </div>
+              ))}
+            </div>
+          </section>
+        );
+
+      case 'skills':
+        if (data.skillCategories.length === 0 || !data.skillCategories.some((c) => c.skills.length > 0)) return null;
+        return (
+          <section key="skills" className="resume-section mb-2.5">
+            <h2 className="text-[11px] font-bold uppercase tracking-wider text-gray-950 border-b border-gray-400 pb-0.5 mb-1">
+              Skills
+            </h2>
+            <div className="space-y-0.5 text-[11px] text-gray-800">
+              {data.skillCategories.map((cat) => (
+                <div key={cat.id}>
+                  <span className="font-semibold text-gray-950">{cat.categoryName}: </span>
+                  <span>{cat.skills.join(', ')}</span>
+                </div>
+              ))}
+            </div>
+          </section>
+        );
+
+      case 'projects':
+        if (data.projects.length === 0 || !data.projects.some((p) => p.name)) return null;
+        return (
+          <section key="projects" className="resume-section mb-2.5">
+            <h2 className="text-[11px] font-bold uppercase tracking-wider text-gray-950 border-b border-gray-400 pb-0.5 mb-1">
+              Projects
+            </h2>
+            <div className="space-y-1 text-[11px]">
+              {data.projects.map((proj) => (
+                <div key={proj.id} className="resume-item">
+                  <div className="flex justify-between font-bold text-gray-950">
+                    <span>{proj.name}{proj.techStack.length > 0 ? ` (${proj.techStack.join(', ')})` : ''}</span>
+                    {proj.liveUrl && <span className="font-normal text-gray-600 text-[10px]">{proj.liveUrl}</span>}
+                  </div>
+                  {proj.bullets.map((b, i) => b.trim() && <div key={i} className="text-gray-700 pl-2">• {b.trim()}</div>)}
+                </div>
+              ))}
+            </div>
+          </section>
+        );
+
+      case 'certifications':
+        if (data.certifications.length === 0) return null;
+        return (
+          <section key="certifications" className="resume-section mb-2">
+            <h2 className="text-[11px] font-bold uppercase tracking-wider text-gray-950 border-b border-gray-400 pb-0.5 mb-1">
+              Certifications
+            </h2>
+            <div className="flex flex-wrap gap-x-4 text-[11px] text-gray-800">
+              {data.certifications.map((c) => (
+                <span key={c.id}><strong>{c.name}</strong> ({c.issuer})</span>
+              ))}
+            </div>
+          </section>
+        );
+
+      case 'languages':
+        if (data.languages.length === 0) return null;
+        return (
+          <section key="languages" className="resume-section mb-2">
+            <h2 className="text-[11px] font-bold uppercase tracking-wider text-gray-950 border-b border-gray-400 pb-0.5 mb-1">
+              Languages
+            </h2>
+            <div className="flex flex-wrap gap-x-3 text-[11px]">
+              {data.languages.map((l) => (
+                <span key={l.id}>{l.name} ({l.level})</span>
+              ))}
+            </div>
+          </section>
+        );
+
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <div className="text-gray-900 bg-white w-full leading-tight">
+      <header className="mb-2.5 pb-1 border-b border-gray-400">
+        <h1 className="text-xl font-bold tracking-tight text-gray-950">
+          {personalDetails.fullName || 'YOUR NAME'}
+        </h1>
+        {personalDetails.jobTitle && (
+          <div className="text-xs font-semibold text-gray-700 mb-0.5">{personalDetails.jobTitle}</div>
+        )}
+        <div className="text-[10px] text-gray-600 flex flex-wrap gap-x-2">
+          {contactItems.map((c, i) => (
+            <span key={i}>
+              {c}{i < contactItems.length - 1 ? ' • ' : ''}
+            </span>
+          ))}
+        </div>
+      </header>
+
+      {personalDetails.summary.trim() && (
+        <section className="resume-section mb-2">
+          <p className="text-[11px] text-gray-800 leading-tight">{personalDetails.summary}</p>
+        </section>
+      )}
+
+      {settings.sectionOrder.map((sectionKey) => renderSectionByKey(sectionKey))}
+    </div>
+  );
+};

@@ -1,0 +1,421 @@
+import type { ResumeData, CvDocument } from '../types/cv';
+
+export const DEFAULT_SECTION_ORDER = [
+  'experience',
+  'education',
+  'skills',
+  'projects',
+  'certifications',
+  'volunteer',
+  'awards',
+  'courses',
+  'languages',
+  'publications',
+  'custom',
+];
+
+export const DEFAULT_SECTION_VISIBILITY: Record<string, boolean> = {
+  experience: true,
+  education: true,
+  skills: true,
+  projects: true,
+  certifications: true,
+  volunteer: false,
+  awards: false,
+  courses: false,
+  languages: true,
+  publications: false,
+  custom: false,
+};
+
+export const SAMPLE_SOFTWARE_ENGINEER: ResumeData = {
+  personalDetails: {
+    fullName: 'David Vance',
+    jobTitle: 'Senior Full-Stack Software Engineer',
+    email: 'david.vance.dev@gmail.com',
+    phone: '+1 (555) 438-9210',
+    city: 'Seattle',
+    country: 'United States',
+    location: 'Seattle, WA',
+    linkedin: 'linkedin.com/in/davidvancedev',
+    github: 'github.com/davidvance-tech',
+    website: 'davidvance.dev',
+    summary:
+      'Performance-driven Senior Full-Stack Engineer with 6+ years of expertise architecting high-throughput distributed systems and cloud microservices. Spearheaded cloud refactoring saving \$1.4M annually and engineered API pipelines handling 18M daily transactions with 99.99% uptime.',
+    showPhoto: false,
+    workAuthorization: 'Authorized to work in US (No sponsorship required)',
+  },
+  experience: [
+    {
+      id: 'exp-1',
+      company: 'Stripe',
+      role: 'Senior Software Engineer',
+      employmentType: 'Full-time',
+      location: 'Seattle, WA',
+      startDate: '2022-03',
+      endDate: '',
+      current: true,
+      bullets: [
+        'Architected and deployed a multi-tenant payment routing engine in Go and TypeScript, processing 18M+ daily API requests with sub-60ms p99 latency.',
+        'Engineered distributed Redis caching layers and optimized PostgreSQL indexes, slashing p95 response times by 54%.',
+        'Spearheaded migration of legacy monolithic payment services to containerized Kubernetes pods, accelerating deployment velocity by 65%.',
+        'Mentored 6 junior and mid-level software engineers through weekly architectural reviews, system design workshops, and pair programming.',
+      ],
+    },
+    {
+      id: 'exp-2',
+      company: 'Datadog',
+      role: 'Full-Stack Software Engineer',
+      employmentType: 'Full-time',
+      location: 'New York, NY',
+      startDate: '2019-06',
+      endDate: '2022-02',
+      current: false,
+      bullets: [
+        'Built enterprise telemetry dashboards in React, TypeScript, and GraphQL utilized by 55,000+ active enterprise developers.',
+        'Implemented bidirectional WebSocket event streaming, reducing client CPU consumption by 40% and eliminating polling overhead.',
+        'Automated continuous delivery pipelines using Docker and GitHub Actions, reducing release failure rates from 8% to under 0.5%.',
+      ],
+    },
+  ],
+  education: [
+    {
+      id: 'edu-1',
+      institution: 'University of Washington',
+      degree: 'Bachelor of Science',
+      fieldOfStudy: 'Computer Science & Software Engineering',
+      location: 'Seattle, WA',
+      startDate: '2015-09',
+      endDate: '2019-05',
+      current: false,
+      gpa: '3.88 / 4.0',
+      coursework: 'Distributed Systems, Algorithms & Data Structures, Database Internals, Computer Networks',
+      description: 'Dean’s Honor List (All Semesters), Magna Cum Laude graduate.',
+    },
+  ],
+  skillCategories: [
+    {
+      id: 'skills-1',
+      categoryName: 'Programming Languages',
+      skills: ['TypeScript', 'JavaScript (ES6+)', 'Go (Golang)', 'Python', 'SQL (PostgreSQL)', 'HTML5 / CSS3'],
+    },
+    {
+      id: 'skills-2',
+      categoryName: 'Frameworks & Libraries',
+      skills: ['React.js', 'Next.js', 'Node.js', 'Express', 'Tailwind CSS', 'Redux Toolkit', 'GraphQL'],
+    },
+    {
+      id: 'skills-3',
+      categoryName: 'Cloud & Infrastructure',
+      skills: ['AWS (Lambda, ECS, RDS, S3)', 'Docker', 'Kubernetes', 'Terraform', 'CI/CD (GitHub Actions)', 'Redis'],
+    },
+    {
+      id: 'skills-4',
+      categoryName: 'Tools & Methodologies',
+      skills: ['Git', 'Jest', 'Cypress', 'Microservices', 'System Architecture', 'Agile / Scrum'],
+    },
+  ],
+  projects: [
+    {
+      id: 'proj-1',
+      name: 'OmniStream: Real-Time Event Processing Engine',
+      description: 'Distributed event processing platform processing streaming telemetry logs via Kafka and WebSockets.',
+      techStack: ['Go', 'Kafka', 'React', 'Docker', 'TimescaleDB'],
+      liveUrl: 'https://omnistream.dev',
+      githubUrl: 'https://github.com/davidvance-tech/omnistream',
+      bullets: [
+        'Engineered streaming pipeline ingesting 35,000 events/sec with guaranteed at-least-once delivery semantics.',
+        'Constructed real-time anomaly detection dashboard with interactive SVG telemetry charts in React and Tailwind CSS.',
+      ],
+    },
+    {
+      id: 'proj-2',
+      name: 'CloudGuard CLI: AWS Cost & Security Auditor',
+      description: 'Open-source CLI tool that scans AWS cloud accounts for idle resources and security vulnerabilities.',
+      techStack: ['TypeScript', 'Node.js', 'AWS SDK'],
+      githubUrl: 'https://github.com/davidvance-tech/cloudguard',
+      bullets: [
+        'Recognized with 1,400+ GitHub stars; adopted by over 200 startup engineering teams to reduce cloud bills by an average of 24%.',
+      ],
+    },
+  ],
+  certifications: [
+    {
+      id: 'cert-1',
+      name: 'AWS Certified Solutions Architect – Associate',
+      issuer: 'Amazon Web Services',
+      date: '2023-09',
+      credentialId: 'AWS-PSA-839201',
+      url: 'https://aws.amazon.com/verification',
+    },
+    {
+      id: 'cert-2',
+      name: 'Certified Kubernetes Administrator (CKA)',
+      issuer: 'Cloud Native Computing Foundation (CNCF)',
+      date: '2022-11',
+      credentialId: 'CKA-901824',
+    },
+  ],
+  volunteer: [
+    {
+      id: 'vol-1',
+      role: 'Volunteer Code Mentor',
+      organization: 'CodeDay Seattle',
+      startDate: '2021-01',
+      endDate: '2023-12',
+      current: false,
+      responsibilities: 'Mentored underrepresented high school and college students in web development fundamentals.',
+      bullets: [
+        'Conducted 20+ hands-on technical workshops helping 120+ students deploy their first full-stack web applications.',
+      ],
+    },
+  ],
+  awards: [
+    {
+      id: 'award-1',
+      title: 'Stripe Engineering Excellence Award',
+      issuer: 'Stripe',
+      date: '2023-10',
+      description: 'Awarded for architecting resilient failover mechanism saving an estimated \$2.8M in potential downtime.',
+    },
+  ],
+  courses: [
+    {
+      id: 'course-1',
+      name: 'Distributed Systems & Microservices Architecture',
+      platform: 'Stanford Online',
+      date: '2021-04',
+      skillsLearned: 'Raft consensus, distributed locking, event sourcing, CQRS',
+    },
+  ],
+  languages: [
+    { id: 'lang-1', name: 'English', level: 'Native / Bilingual' },
+    { id: 'lang-2', name: 'Spanish', level: 'Professional Working' },
+  ],
+  publications: [],
+  customSections: [],
+  settings: {
+    template: 'classic',
+    font: 'inter',
+    fontSize: 'normal',
+    spacing: 'normal',
+    primaryColor: '#0f172a',
+    sectionOrder: [...DEFAULT_SECTION_ORDER],
+    sectionVisibility: {
+      ...DEFAULT_SECTION_VISIBILITY,
+      volunteer: true,
+      awards: true,
+      courses: true,
+    },
+    showIcons: true,
+  },
+};
+
+export const SAMPLE_PRODUCT_MANAGER: ResumeData = {
+  personalDetails: {
+    fullName: 'Elena Rostova',
+    jobTitle: 'Senior Product Manager – Enterprise SaaS',
+    email: 'elena.rostova.pm@gmail.com',
+    phone: '+1 (555) 789-2341',
+    city: 'San Francisco',
+    country: 'United States',
+    location: 'San Francisco, CA',
+    linkedin: 'linkedin.com/in/elenarostovapm',
+    github: '',
+    website: 'elenarostova.com',
+    summary:
+      'Customer-obsessed Product Manager with 7+ years of experience leading cross-functional engineering and design squads in high-growth B2B SaaS. Driven product vision that scaled ARR from \$6M to \$24M while decreasing onboarding churn by 34% through continuous discovery and quantitative experimentation.',
+    showPhoto: false,
+  },
+  experience: [
+    {
+      id: 'exp-1',
+      company: 'HubSpot',
+      role: 'Lead Product Manager – Automation & Workflows',
+      employmentType: 'Full-time',
+      location: 'Remote / San Francisco, CA',
+      startDate: '2021-05',
+      endDate: '',
+      current: true,
+      bullets: [
+        'Owned product strategy, roadmap, and quarterly OKRs for automation platform utilized by 140,000+ businesses globally.',
+        'Launched AI-powered CRM workflow assistant, boosting user trial-to-paid conversion rates by 26% within first 120 days.',
+        'Conducted 80+ customer discovery interviews and analyzed Amplitude funnels to eliminate key activation drop-off points.',
+      ],
+    },
+    {
+      id: 'exp-2',
+      company: 'Asana',
+      role: 'Senior Product Manager',
+      employmentType: 'Full-time',
+      location: 'San Francisco, CA',
+      startDate: '2018-07',
+      endDate: '2021-04',
+      current: false,
+      bullets: [
+        'Led team of 10 engineers and 2 UX designers to launch enterprise admin permissions and granular access governance.',
+        'Delivered enterprise security compliance features ahead of schedule, unlocking \$4.2M in annual recurring expansion contracts.',
+      ],
+    },
+  ],
+  education: [
+    {
+      id: 'edu-1',
+      institution: 'University of California, Berkeley',
+      degree: 'Master of Science',
+      fieldOfStudy: 'Engineering Management & HCI',
+      location: 'Berkeley, CA',
+      startDate: '2016-09',
+      endDate: '2018-05',
+      current: false,
+      gpa: '3.92 / 4.0',
+    },
+  ],
+  skillCategories: [
+    {
+      id: 'skills-1',
+      categoryName: 'Product Strategy & Discovery',
+      skills: ['Product Roadmapping', 'User Research', 'Customer Discovery', 'A/B Testing', 'Go-To-Market (GTM)', 'Market Sizing'],
+    },
+    {
+      id: 'skills-2',
+      categoryName: 'Analytics & Quantitative Tools',
+      skills: ['Amplitude', 'Mixpanel', 'SQL (PostgreSQL)', 'Figma', 'Jira', 'Tableau', 'Google Analytics'],
+    },
+    {
+      id: 'skills-3',
+      categoryName: 'Leadership & Execution',
+      skills: ['Agile / Scrum', 'Cross-Functional Leadership', 'OKRs & KPIs', 'Stakeholder Alignment'],
+    },
+  ],
+  projects: [
+    {
+      id: 'proj-1',
+      name: 'PLG Index: SaaS Onboarding Teardowns',
+      description: 'Comprehensive research repository examining user activation patterns across top 50 PLG companies.',
+      techStack: ['Product-Led Growth', 'UX Research', 'Figma'],
+      liveUrl: 'https://plgindex.com',
+      bullets: [
+        'Authored 30+ teardowns with 22,000+ monthly product manager readers; referenced by prominent tech newsletters.',
+      ],
+    },
+  ],
+  certifications: [
+    {
+      id: 'cert-1',
+      name: 'Reforge – Advanced Product Strategy & Growth Series',
+      issuer: 'Reforge',
+      date: '2022-04',
+    },
+    {
+      id: 'cert-2',
+      name: 'Certified Scrum Product Owner (CSPO)',
+      issuer: 'Scrum Alliance',
+      date: '2019-10',
+    },
+  ],
+  volunteer: [],
+  awards: [],
+  courses: [],
+  languages: [
+    { id: 'lang-1', name: 'English', level: 'Native / Bilingual' },
+    { id: 'lang-2', name: 'French', level: 'Intermediate' },
+  ],
+  publications: [],
+  customSections: [],
+  settings: {
+    template: 'modern',
+    font: 'inter',
+    fontSize: 'normal',
+    spacing: 'normal',
+    primaryColor: '#0369a1',
+    sectionOrder: [...DEFAULT_SECTION_ORDER],
+    sectionVisibility: { ...DEFAULT_SECTION_VISIBILITY },
+    showIcons: true,
+  },
+};
+
+export const BLANK_RESUME: ResumeData = {
+  personalDetails: {
+    fullName: '',
+    jobTitle: '',
+    email: '',
+    phone: '',
+    city: '',
+    country: '',
+    location: '',
+    linkedin: '',
+    github: '',
+    website: '',
+    otherUrl: '',
+    summary: '',
+    showPhoto: false,
+  },
+  experience: [
+    {
+      id: 'exp-1',
+      company: '',
+      role: '',
+      location: '',
+      startDate: '',
+      endDate: '',
+      current: false,
+      bullets: [''],
+    },
+  ],
+  education: [
+    {
+      id: 'edu-1',
+      institution: '',
+      degree: '',
+      fieldOfStudy: '',
+      location: '',
+      startDate: '',
+      endDate: '',
+      current: false,
+    },
+  ],
+  skillCategories: [
+    {
+      id: 'skills-1',
+      categoryName: 'Core Skills',
+      skills: [],
+    },
+  ],
+  projects: [],
+  certifications: [],
+  volunteer: [],
+  awards: [],
+  courses: [],
+  languages: [],
+  publications: [],
+  customSections: [],
+  settings: {
+    template: 'classic',
+    font: 'inter',
+    fontSize: 'normal',
+    spacing: 'normal',
+    primaryColor: '#0f172a',
+    sectionOrder: [...DEFAULT_SECTION_ORDER],
+    sectionVisibility: { ...DEFAULT_SECTION_VISIBILITY },
+    showIcons: true,
+  },
+};
+
+export function createNewCvDocument(title = 'My Resume', template: ResumeData['settings']['template'] = 'classic'): CvDocument {
+  const id = `cv-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
+  const now = new Date().toISOString();
+  return {
+    id,
+    title,
+    createdAt: now,
+    updatedAt: now,
+    data: {
+      ...BLANK_RESUME,
+      settings: {
+        ...BLANK_RESUME.settings,
+        template,
+      },
+    },
+  };
+}

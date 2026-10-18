@@ -36,7 +36,30 @@ import { CVQualityChecker } from './components/CVQualityChecker';
 import { Eye, Edit3 } from 'lucide-react';
 
 export default function App() {
-  const [currentView, setCurrentView] = useState<'home' | 'builder' | 'templates' | 'my-cvs' | 'privacy'>('home');
+  const getInitialView = (): 'home' | 'builder' | 'templates' | 'my-cvs' | 'privacy' => {
+    const hash = window.location.hash.replace('#', '');
+    if (['home', 'builder', 'templates', 'my-cvs', 'privacy'].includes(hash)) {
+      return hash as any;
+    }
+    const param = new URLSearchParams(window.location.search).get('view');
+    if (param && ['home', 'builder', 'templates', 'my-cvs', 'privacy'].includes(param)) {
+      return param as any;
+    }
+    return 'home';
+  };
+
+  const [currentView, setCurrentView] = useState<'home' | 'builder' | 'templates' | 'my-cvs' | 'privacy'>(getInitialView);
+
+  useEffect(() => {
+    const handleHash = () => {
+      const hash = window.location.hash.replace('#', '');
+      if (['home', 'builder', 'templates', 'my-cvs', 'privacy'].includes(hash)) {
+        setCurrentView(hash as any);
+      }
+    };
+    window.addEventListener('hashchange', handleHash);
+    return () => window.removeEventListener('hashchange', handleHash);
+  }, []);
 
   // Documents state
   const [documents, setDocuments] = useState<CvDocument[]>(getStoredDocuments);
@@ -68,6 +91,12 @@ export default function App() {
 
   // Check privacy acknowledgment on initial mount
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('skipPrivacy') === '1') {
+      setPrivacyAcknowledged(true);
+      setIsPrivacyModalOpen(false);
+      return;
+    }
     if (!hasAcknowledgedPrivacy()) {
       setIsPrivacyModalOpen(true);
       setIsFirstVisitNotice(true);

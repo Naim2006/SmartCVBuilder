@@ -257,7 +257,7 @@ export const ExecutiveTemplate: React.FC<TemplateProps> = ({ data }) => {
 
   return (
     <div className="text-gray-900 bg-white w-full leading-normal">
-      <header className={`text-center pb-2 ${sSpacing} border-b-2 border-gray-900`}>
+      <header className={`resume-header text-center pb-2 ${sSpacing} border-b-2 border-gray-900`}>
         <h1 className="text-2xl sm:text-3xl font-extrabold uppercase tracking-wide text-gray-950 mb-0.5 font-serif">
           {personalDetails.fullName || 'YOUR NAME'}
         </h1>

@@ -285,7 +285,7 @@ export const DeveloperTemplate: React.FC<TemplateProps> = ({ data }) => {
 
   return (
     <div className="text-gray-900 bg-white w-full leading-normal">
-      <header className={`pb-1.5 ${sSpacing} border-b-2 border-gray-900`}>
+      <header className={`resume-header pb-1.5 ${sSpacing} border-b-2 border-gray-900`}>
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline">
           <h1 className="text-xl sm:text-2xl font-black tracking-tight text-gray-950 font-mono">
             {personalDetails.fullName || 'YOUR NAME'}

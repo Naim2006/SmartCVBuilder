@@ -419,7 +419,7 @@ export const ClassicTemplate: React.FC<TemplateProps> = ({ data }) => {
   return (
     <div className="text-black bg-white w-full leading-normal">
       {/* Header */}
-      <header className={`text-center pb-2 border-b border-gray-400 ${sSpacing}`}>
+      <header className={`resume-header text-center pb-2 border-b border-gray-400 ${sSpacing}`}>
         <h1 className="text-xl sm:text-2xl font-bold uppercase tracking-wider text-gray-950 mb-0.5">
           {personalDetails.fullName || 'YOUR NAME'}
         </h1>

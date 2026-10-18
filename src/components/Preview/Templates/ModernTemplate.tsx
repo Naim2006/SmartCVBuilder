@@ -341,7 +341,7 @@ export const ModernTemplate: React.FC<TemplateProps> = ({ data }) => {
   return (
     <div className="text-gray-900 bg-white w-full leading-normal">
       {/* Header */}
-      <header className={`pb-2 ${sSpacing} border-b-2`} style={{ borderColor: settings.primaryColor }}>
+      <header className={`resume-header pb-2 ${sSpacing} border-b-2`} style={{ borderColor: settings.primaryColor }}>
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-1.5">
           <div>
             <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-gray-950">

@@ -74,7 +74,7 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
   const [editingTitleKey, setEditingTitleKey] = useState<string | null>(null);
 
   const tabs: { id: TabType; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
-    { id: 'personal', label: 'Contact', icon: User },
+    { id: 'personal', label: 'Personal Details', icon: User },
     { id: 'experience', label: 'Experience', icon: Briefcase },
     { id: 'education', label: 'Education', icon: GraduationCap },
     { id: 'skills', label: 'Skills', icon: Wrench },
@@ -374,7 +374,7 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
                 <div className="flex items-center gap-2">
                   <User className="w-4 h-4 text-blue-600" />
                   <span className="font-bold text-xs text-slate-800">
-                    Contact & Personal Information
+                    Personal Details (Name, Contact, Links)
                   </span>
                 </div>
                 {openSections.personal ? (

@@ -50,13 +50,13 @@
     print-color-adjust: exact !important;
   }
 
-  /* Hide all non-printable UI, headers, footers, navigation, canvas, buttons */
+  /* Hide all non-printable UI, navigation, canvas, buttons, modals */
   .no-print,
-  header,
-  footer,
+  header.no-print,
+  footer.no-print,
+  nav,
   aside,
   button,
-  nav,
   canvas,
   select {
     display: none !important;
@@ -104,6 +104,15 @@
 
   #cv-document * {
     visibility: visible !important;
+  }
+
+  #cv-document header,
+  #cv-document .resume-header {
+    display: block !important;
+    visibility: visible !important;
+    height: auto !important;
+    width: 100% !important;
+    opacity: 1 !important;
   }
 
   /* Strict 1-Page mode enforcement */

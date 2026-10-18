@@ -255,7 +255,7 @@ export const CompactTemplate: React.FC<TemplateProps> = ({ data }) => {
 
   return (
     <div className="text-gray-900 bg-white w-full leading-tight">
-      <header className={`pb-1 ${sSpacing} border-b border-gray-400`}>
+      <header className={`resume-header pb-1 ${sSpacing} border-b border-gray-400`}>
         <h1 className="text-xl font-bold tracking-tight text-gray-950">
           {personalDetails.fullName || 'YOUR NAME'}
         </h1>

@@ -166,10 +166,64 @@ export const CompactTemplate: React.FC<TemplateProps> = ({ data }) => {
           </section>
         );
 
+      case 'volunteer':
+        if (data.volunteer.length === 0) return null;
+        return (
+          <section key="volunteer" className="resume-section mb-1.5">
+            <h2 className="text-[11px] font-bold uppercase tracking-wider text-gray-950 border-b border-gray-400 pb-0.5 mb-1">
+              {getTitle('volunteer', 'Volunteering')}
+            </h2>
+            <div className="space-y-0.5 text-[11px]">
+              {data.volunteer.map((v) => (
+                <div key={v.id} className="flex justify-between items-baseline">
+                  <span><strong>{v.role}</strong> — {v.organization}</span>
+                  <span className="text-gray-500 text-[10px]">{v.startDate} – {v.current ? 'Present' : v.endDate}</span>
+                </div>
+              ))}
+            </div>
+          </section>
+        );
+
+      case 'awards':
+        if (data.awards.length === 0) return null;
+        return (
+          <section key="awards" className="resume-section mb-1.5">
+            <h2 className="text-[11px] font-bold uppercase tracking-wider text-gray-950 border-b border-gray-400 pb-0.5 mb-1">
+              {getTitle('awards', 'Awards')}
+            </h2>
+            <div className="space-y-0.5 text-[11px]">
+              {data.awards.map((a) => (
+                <div key={a.id} className="flex justify-between items-baseline">
+                  <span><strong>{a.title}</strong> — {a.issuer}</span>
+                  <span className="text-gray-500 text-[10px]">{a.date}</span>
+                </div>
+              ))}
+            </div>
+          </section>
+        );
+
+      case 'courses':
+        if (data.courses.length === 0) return null;
+        return (
+          <section key="courses" className="resume-section mb-1.5">
+            <h2 className="text-[11px] font-bold uppercase tracking-wider text-gray-950 border-b border-gray-400 pb-0.5 mb-1">
+              {getTitle('courses', 'Training')}
+            </h2>
+            <div className="space-y-0.5 text-[11px]">
+              {data.courses.map((c) => (
+                <div key={c.id} className="flex justify-between items-baseline">
+                  <span><strong>{c.name}</strong> ({c.platform})</span>
+                  <span className="text-gray-500 text-[10px]">{c.date}</span>
+                </div>
+              ))}
+            </div>
+          </section>
+        );
+
       case 'languages':
         if (data.languages.length === 0) return null;
         return (
-          <section key="languages" className="resume-section mb-1.5">
+          <section key="languages" className="resume-section mb-1">
             <h2 className="text-[11px] font-bold uppercase tracking-wider text-gray-950 border-b border-gray-400 pb-0.5 mb-1">
               {getTitle('languages', 'Languages')}
             </h2>

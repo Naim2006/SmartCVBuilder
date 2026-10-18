@@ -17,23 +17,23 @@ export const ModernTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'experience':
         if (data.experience.length === 0 || !data.experience.some((e) => e.company || e.role)) return null;
         return (
-          <section key="experience" className="resume-section mb-2">
-            <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 mb-1 flex items-center gap-1.5">
+          <section key="experience" className="resume-section mb-1.5">
+            <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 mb-0.5 flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full" style={{ backgroundColor: settings.primaryColor }}></span>
               {getTitle('experience', 'Experience')}
             </h2>
-            <div className="space-y-2 pl-3 border-l-2 border-gray-100">
+            <div className="space-y-1 pl-3 border-l-2 border-gray-100">
               {data.experience.map((exp) => {
                 if (!exp.company && !exp.role) return null;
                 return (
                   <div key={exp.id} className="resume-item">
                     <div className="flex justify-between items-baseline text-xs">
                       <span className="font-bold text-gray-950">{exp.role}</span>
-                      <span className="text-gray-500 font-medium text-[11px]">
+                      <span className="text-gray-500 font-medium text-[10.5px]">
                         {exp.startDate} – {exp.current ? 'Present' : exp.endDate || 'Present'}
                       </span>
                     </div>
-                    <div className="flex justify-between items-baseline text-[11.5px] text-gray-600 mb-0.5">
+                    <div className="flex justify-between items-baseline text-[11px] text-gray-600 mb-0.5">
                       <span className="font-semibold" style={{ color: settings.primaryColor }}>
                         {exp.company}{exp.employmentType ? ` • ${exp.employmentType}` : ''}
                       </span>
@@ -54,12 +54,12 @@ export const ModernTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'education':
         if (data.education.length === 0 || !data.education.some((e) => e.institution || e.degree)) return null;
         return (
-          <section key="education" className="resume-section mb-2">
-            <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 mb-1 flex items-center gap-1.5">
+          <section key="education" className="resume-section mb-1.5">
+            <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 mb-0.5 flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full" style={{ backgroundColor: settings.primaryColor }}></span>
               {getTitle('education', 'Education')}
             </h2>
-            <div className="space-y-1.5 pl-3 border-l-2 border-gray-100">
+            <div className="space-y-1 pl-3 border-l-2 border-gray-100">
               {data.education.map((edu) => {
                 if (!edu.institution && !edu.degree) return null;
                 return (
@@ -94,8 +94,8 @@ export const ModernTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'skills':
         if (data.skillCategories.length === 0 || !data.skillCategories.some((c) => c.skills.length > 0)) return null;
         return (
-          <section key="skills" className="resume-section mb-2">
-            <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 mb-1 flex items-center gap-1.5">
+          <section key="skills" className="resume-section mb-1.5">
+            <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 mb-0.5 flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full" style={{ backgroundColor: settings.primaryColor }}></span>
               {getTitle('skills', 'Key Skills')}
             </h2>
@@ -103,9 +103,9 @@ export const ModernTemplate: React.FC<TemplateProps> = ({ data }) => {
               {data.skillCategories.map((cat) => {
                 if (cat.skills.length === 0) return null;
                 return (
-                  <div key={cat.id} className="bg-gray-50 px-2 py-1 rounded">
-                    <span className="font-bold text-gray-950 block mb-0.2 text-[11.5px]">{cat.categoryName}</span>
-                    <span className="text-gray-700 text-[11px]">{cat.skills.join(', ')}</span>
+                  <div key={cat.id} className="bg-gray-50 px-2 py-0.5 rounded">
+                    <span className="font-bold text-gray-950 block text-[11px]">{cat.categoryName}</span>
+                    <span className="text-gray-700 text-[10.5px]">{cat.skills.join(', ')}</span>
                   </div>
                 );
               })}
@@ -116,12 +116,12 @@ export const ModernTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'projects':
         if (data.projects.length === 0 || !data.projects.some((p) => p.name)) return null;
         return (
-          <section key="projects" className="resume-section mb-2">
-            <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 mb-1 flex items-center gap-1.5">
+          <section key="projects" className="resume-section mb-1.5">
+            <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 mb-0.5 flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full" style={{ backgroundColor: settings.primaryColor }}></span>
               {getTitle('projects', 'Projects')}
             </h2>
-            <div className="space-y-1.5 pl-3 border-l-2 border-gray-100">
+            <div className="space-y-1 pl-3 border-l-2 border-gray-100">
               {data.projects.map((proj) => {
                 if (!proj.name) return null;
                 return (
@@ -130,13 +130,13 @@ export const ModernTemplate: React.FC<TemplateProps> = ({ data }) => {
                       <div className="flex items-center gap-1.5 flex-wrap">
                         <span className="font-bold text-gray-950">{proj.name}</span>
                         {proj.techStack.length > 0 && (
-                          <span className="font-normal text-gray-500 text-[10.5px]">
+                          <span className="font-normal text-gray-500 text-[10px]">
                             [{proj.techStack.join(', ')}]
                           </span>
                         )}
                       </div>
                       {/* Right-aligned Live Web and GitHub Repo links */}
-                      <div className="flex items-center gap-2 text-[10.5px] font-medium text-gray-600">
+                      <div className="flex items-center gap-2 text-[10px] font-medium text-gray-600">
                         {proj.liveUrl && (
                           <a
                             href={proj.liveUrl.startsWith('http') ? proj.liveUrl : `https://${proj.liveUrl}`}
@@ -161,7 +161,7 @@ export const ModernTemplate: React.FC<TemplateProps> = ({ data }) => {
                         )}
                       </div>
                     </div>
-                    {proj.description && <p className="text-[11.5px] text-gray-600 mb-0.5">{proj.description}</p>}
+                    {proj.description && <p className="text-[11px] text-gray-600 mb-0.5 leading-snug">{proj.description}</p>}
                     {proj.bullets.length > 0 && (
                       <ul className="list-disc list-outside ml-3.5 space-y-0.5 text-xs text-gray-700 leading-snug">
                         {proj.bullets.map((b, i) => b.trim() && <li key={i}>{b.trim()}</li>)}
@@ -177,19 +177,19 @@ export const ModernTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'certifications':
         if (data.certifications.length === 0 || !data.certifications.some((c) => c.name)) return null;
         return (
-          <section key="certifications" className="resume-section mb-2">
-            <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 mb-1 flex items-center gap-1.5">
+          <section key="certifications" className="resume-section mb-1.5">
+            <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 mb-0.5 flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full" style={{ backgroundColor: settings.primaryColor }}></span>
               {getTitle('certifications', 'Certifications')}
             </h2>
-            <div className="pl-3 border-l-2 border-gray-100 space-y-1 text-xs text-gray-700">
+            <div className="pl-3 border-l-2 border-gray-100 space-y-0.5 text-xs text-gray-700">
               {data.certifications.map((c) => (
                 <div key={c.id} className="flex justify-between items-baseline">
                   <div>
                     <span className="font-semibold text-gray-950">{c.name}</span>
                     {c.issuer && <span className="text-gray-600"> — {c.issuer}</span>}
                   </div>
-                  <div className="flex items-center gap-2 text-[10.5px] text-gray-600">
+                  <div className="flex items-center gap-2 text-[10px] text-gray-600">
                     {c.date && <span>{c.date}</span>}
                     {c.url && (
                       <a
@@ -211,16 +211,16 @@ export const ModernTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'volunteer':
         if (data.volunteer.length === 0) return null;
         return (
-          <section key="volunteer" className="resume-section mb-2">
-            <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 mb-1 flex items-center gap-1.5">
+          <section key="volunteer" className="resume-section mb-1.5">
+            <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 mb-0.5 flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full" style={{ backgroundColor: settings.primaryColor }}></span>
               {getTitle('volunteer', 'Volunteer Work')}
             </h2>
-            <div className="pl-3 border-l-2 border-gray-100 space-y-1 text-xs">
+            <div className="pl-3 border-l-2 border-gray-100 space-y-0.5 text-xs">
               {data.volunteer.map((v) => (
                 <div key={v.id} className="flex justify-between items-baseline">
                   <span><strong>{v.role}</strong> — {v.organization}</span>
-                  <span className="text-gray-500 text-[11px]">{v.startDate} – {v.current ? 'Present' : v.endDate}</span>
+                  <span className="text-gray-500 text-[10.5px]">{v.startDate} – {v.current ? 'Present' : v.endDate}</span>
                 </div>
               ))}
             </div>
@@ -230,16 +230,16 @@ export const ModernTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'awards':
         if (data.awards.length === 0) return null;
         return (
-          <section key="awards" className="resume-section mb-2">
-            <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 mb-1 flex items-center gap-1.5">
+          <section key="awards" className="resume-section mb-1.5">
+            <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 mb-0.5 flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full" style={{ backgroundColor: settings.primaryColor }}></span>
               {getTitle('awards', 'Honors & Awards')}
             </h2>
-            <div className="pl-3 border-l-2 border-gray-100 space-y-1 text-xs">
+            <div className="pl-3 border-l-2 border-gray-100 space-y-0.5 text-xs">
               {data.awards.map((a) => (
                 <div key={a.id} className="flex justify-between items-baseline">
                   <span><strong>{a.title}</strong> — {a.issuer}</span>
-                  <span className="text-gray-500 text-[11px]">{a.date}</span>
+                  <span className="text-gray-500 text-[10.5px]">{a.date}</span>
                 </div>
               ))}
             </div>
@@ -249,16 +249,16 @@ export const ModernTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'courses':
         if (data.courses.length === 0) return null;
         return (
-          <section key="courses" className="resume-section mb-2">
-            <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 mb-1 flex items-center gap-1.5">
+          <section key="courses" className="resume-section mb-1.5">
+            <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 mb-0.5 flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full" style={{ backgroundColor: settings.primaryColor }}></span>
               {getTitle('courses', 'Professional Training')}
             </h2>
-            <div className="pl-3 border-l-2 border-gray-100 space-y-1 text-xs">
+            <div className="pl-3 border-l-2 border-gray-100 space-y-0.5 text-xs">
               {data.courses.map((c) => (
                 <div key={c.id} className="flex justify-between items-baseline">
                   <span><strong>{c.name}</strong> ({c.platform})</span>
-                  <div className="flex items-center gap-2 text-[10.5px] text-gray-600">
+                  <div className="flex items-center gap-2 text-[10px] text-gray-600">
                     <span>{c.date}</span>
                     {c.url && (
                       <a
@@ -280,8 +280,8 @@ export const ModernTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'languages':
         if (data.languages.length === 0) return null;
         return (
-          <section key="languages" className="resume-section mb-2">
-            <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 mb-1 flex items-center gap-1.5">
+          <section key="languages" className="resume-section mb-1">
+            <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 mb-0.5 flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full" style={{ backgroundColor: settings.primaryColor }}></span>
               {getTitle('languages', 'Languages')}
             </h2>

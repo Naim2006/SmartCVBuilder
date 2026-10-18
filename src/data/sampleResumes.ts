@@ -56,10 +56,9 @@ export const SAMPLE_SOFTWARE_ENGINEER: ResumeData = {
       endDate: '',
       current: true,
       bullets: [
-        'Architected and deployed a multi-tenant payment routing engine in Go and TypeScript, processing 18M+ daily API requests with sub-60ms p99 latency.',
+        'Architected multi-tenant payment routing engine in Go & TypeScript, processing 18M+ daily requests with sub-60ms p99 latency.',
         'Engineered distributed Redis caching layers and optimized PostgreSQL indexes, slashing p95 response times by 54%.',
-        'Spearheaded migration of legacy monolithic payment services to containerized Kubernetes pods, accelerating deployment velocity by 65%.',
-        'Mentored 6 junior and mid-level software engineers through weekly architectural reviews, system design workshops, and pair programming.',
+        'Spearheaded Kubernetes containerization of core payment microservices, accelerating release velocity by 65%.',
       ],
     },
     {
@@ -74,7 +73,6 @@ export const SAMPLE_SOFTWARE_ENGINEER: ResumeData = {
       bullets: [
         'Built enterprise telemetry dashboards in React, TypeScript, and GraphQL utilized by 55,000+ active enterprise developers.',
         'Implemented bidirectional WebSocket event streaming, reducing client CPU consumption by 40% and eliminating polling overhead.',
-        'Automated continuous delivery pipelines using Docker and GitHub Actions, reducing release failure rates from 8% to under 0.5%.',
       ],
     },
   ],
@@ -119,13 +117,12 @@ export const SAMPLE_SOFTWARE_ENGINEER: ResumeData = {
     {
       id: 'proj-1',
       name: 'OmniStream: Real-Time Event Processing Engine',
-      description: 'Distributed event processing platform processing streaming telemetry logs via Kafka and WebSockets.',
+      description: 'Distributed event processing platform streaming telemetry logs via Kafka and WebSockets.',
       techStack: ['Go', 'Kafka', 'React', 'Docker', 'TimescaleDB'],
       liveUrl: 'https://omnistream.dev',
       githubUrl: 'https://github.com/davidvance-tech/omnistream',
       bullets: [
         'Engineered streaming pipeline ingesting 35,000 events/sec with guaranteed at-least-once delivery semantics.',
-        'Constructed real-time anomaly detection dashboard with interactive SVG telemetry charts in React and Tailwind CSS.',
       ],
     },
     {
@@ -135,7 +132,7 @@ export const SAMPLE_SOFTWARE_ENGINEER: ResumeData = {
       techStack: ['TypeScript', 'Node.js', 'AWS SDK'],
       githubUrl: 'https://github.com/davidvance-tech/cloudguard',
       bullets: [
-        'Recognized with 1,400+ GitHub stars; adopted by over 200 startup engineering teams to reduce cloud bills by an average of 24%.',
+        'Recognized with 1,400+ GitHub stars; adopted by 200+ engineering teams to reduce cloud bills by 24%.',
       ],
     },
   ],
@@ -164,10 +161,8 @@ export const SAMPLE_SOFTWARE_ENGINEER: ResumeData = {
       startDate: '2021-01',
       endDate: '2023-12',
       current: false,
-      responsibilities: 'Mentored underrepresented high school and college students in web development fundamentals.',
-      bullets: [
-        'Conducted 20+ hands-on technical workshops helping 120+ students deploy their first full-stack web applications.',
-      ],
+      responsibilities: 'Mentored 120+ underrepresented students in web development fundamentals and full-stack projects.',
+      bullets: [],
     },
   ],
   awards: [
@@ -176,7 +171,7 @@ export const SAMPLE_SOFTWARE_ENGINEER: ResumeData = {
       title: 'Stripe Engineering Excellence Award',
       issuer: 'Stripe',
       date: '2023-10',
-      description: 'Awarded for architecting resilient failover mechanism saving an estimated \$2.8M in potential downtime.',
+      description: 'Awarded for architecting resilient failover mechanism saving \$2.8M in potential downtime.',
     },
   ],
   courses: [

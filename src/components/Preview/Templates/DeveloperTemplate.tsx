@@ -166,18 +166,18 @@ export const DeveloperTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'certifications':
         if (data.certifications.length === 0 || !data.certifications.some((c) => c.name)) return null;
         return (
-          <section key="certifications" className="resume-section mb-2">
-            <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 font-mono mb-1 bg-gray-100 px-1 py-0.5 inline-block">
+          <section key="certifications" className="resume-section mb-1.5">
+            <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 font-mono mb-0.5 bg-gray-100 px-1 py-0.5 inline-block">
               {getTitle('certifications', 'CERTIFICATIONS')}
             </h2>
-            <div className="text-xs text-gray-800 space-y-1">
+            <div className="text-xs text-gray-800 space-y-0.5">
               {data.certifications.map((c) => (
                 <div key={c.id} className="flex justify-between items-baseline">
                   <div>
                     <span className="font-bold">{c.name}</span>
                     {c.issuer && <span className="text-gray-600"> ({c.issuer})</span>}
                   </div>
-                  <div className="flex items-center gap-2 text-[10.5px] text-gray-600">
+                  <div className="flex items-center gap-2 text-[10px] text-gray-600">
                     {c.date && <span className="font-mono">{c.date}</span>}
                     {c.url && (
                       <a
@@ -196,6 +196,75 @@ export const DeveloperTemplate: React.FC<TemplateProps> = ({ data }) => {
           </section>
         );
 
+      case 'volunteer':
+        if (data.volunteer.length === 0) return null;
+        return (
+          <section key="volunteer" className="resume-section mb-1.5">
+            <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 font-mono mb-0.5 bg-gray-100 px-1 py-0.5 inline-block">
+              {getTitle('volunteer', 'COMMUNITY & VOLUNTEERING')}
+            </h2>
+            <div className="space-y-0.5 text-xs">
+              {data.volunteer.map((v) => (
+                <div key={v.id} className="flex justify-between items-baseline">
+                  <span><strong>{v.role}</strong> @ {v.organization}</span>
+                  <span className="text-gray-500 font-mono text-[10.5px]">{v.startDate} – {v.current ? 'Present' : v.endDate}</span>
+                </div>
+              ))}
+            </div>
+          </section>
+        );
+
+      case 'awards':
+        if (data.awards.length === 0) return null;
+        return (
+          <section key="awards" className="resume-section mb-1.5">
+            <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 font-mono mb-0.5 bg-gray-100 px-1 py-0.5 inline-block">
+              {getTitle('awards', 'HONORS & AWARDS')}
+            </h2>
+            <div className="space-y-0.5 text-xs">
+              {data.awards.map((a) => (
+                <div key={a.id} className="flex justify-between items-baseline">
+                  <span><strong>{a.title}</strong> — {a.issuer}</span>
+                  <span className="text-gray-500 font-mono text-[10.5px]">{a.date}</span>
+                </div>
+              ))}
+            </div>
+          </section>
+        );
+
+      case 'courses':
+        if (data.courses.length === 0) return null;
+        return (
+          <section key="courses" className="resume-section mb-1.5">
+            <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 font-mono mb-0.5 bg-gray-100 px-1 py-0.5 inline-block">
+              {getTitle('courses', 'TRAINING & CONTINUED ED')}
+            </h2>
+            <div className="space-y-0.5 text-xs">
+              {data.courses.map((c) => (
+                <div key={c.id} className="flex justify-between items-baseline">
+                  <span><strong>{c.name}</strong> ({c.platform})</span>
+                  <span className="text-gray-500 font-mono text-[10.5px]">{c.date}</span>
+                </div>
+              ))}
+            </div>
+          </section>
+        );
+
+      case 'languages':
+        if (data.languages.length === 0) return null;
+        return (
+          <section key="languages" className="resume-section mb-1">
+            <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 font-mono mb-0.5 bg-gray-100 px-1 py-0.5 inline-block">
+              {getTitle('languages', 'LANGUAGES')}
+            </h2>
+            <div className="flex flex-wrap gap-x-4 text-xs text-gray-800">
+              {data.languages.map((l) => (
+                <span key={l.id} className="font-mono"><strong>{l.name}</strong> {l.level && `[${l.level}]`}</span>
+              ))}
+            </div>
+          </section>
+        );
+
       default:
         return null;
     }
@@ -203,9 +272,9 @@ export const DeveloperTemplate: React.FC<TemplateProps> = ({ data }) => {
 
   return (
     <div className="text-gray-900 bg-white w-full leading-normal">
-      <header className="pb-2 mb-2 border-b-2 border-gray-900">
+      <header className="pb-1.5 mb-1.5 border-b-2 border-gray-900">
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline">
-          <h1 className="text-2xl font-black tracking-tight text-gray-950 font-mono">
+          <h1 className="text-xl sm:text-2xl font-black tracking-tight text-gray-950 font-mono">
             {personalDetails.fullName || 'YOUR NAME'}
           </h1>
           {personalDetails.jobTitle && (
@@ -214,7 +283,7 @@ export const DeveloperTemplate: React.FC<TemplateProps> = ({ data }) => {
             </span>
           )}
         </div>
-        <div className="text-[11px] font-mono text-gray-700 flex flex-wrap gap-x-3 gap-y-0.5 mt-1">
+        <div className="text-[10.5px] font-mono text-gray-700 flex flex-wrap gap-x-3 gap-y-0.5 mt-0.5">
           {contactItems.map((c, i) => (
             <span key={i}>
               {c}{i < contactItems.length - 1 ? ' | ' : ''}
@@ -224,8 +293,8 @@ export const DeveloperTemplate: React.FC<TemplateProps> = ({ data }) => {
       </header>
 
       {personalDetails.summary.trim() && (
-        <section className="resume-section mb-2">
-          <p className="text-xs text-gray-800 leading-relaxed">{personalDetails.summary}</p>
+        <section className="resume-section mb-1.5">
+          <p className="text-xs text-gray-800 leading-snug">{personalDetails.summary}</p>
         </section>
       )}
 

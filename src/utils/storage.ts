@@ -80,10 +80,19 @@ export function getStoredDocuments(): CvDocument[] {
       setActiveDocumentId(initialDoc.id);
       return [initialDoc];
     }
-    return parsed.map((doc) => ({
-      ...doc,
-      data: sanitizeResumeData(doc.data),
-    }));
+    return parsed.map((doc) => {
+      // If user has the uncalibrated initial sample with 4+ bullets, migrate to calibrated 1-page sample
+      if (doc.id === 'cv-sample-1' && (doc.data?.experience?.[0]?.bullets?.length || 0) >= 4) {
+        return {
+          ...doc,
+          data: sanitizeResumeData(SAMPLE_SOFTWARE_ENGINEER),
+        };
+      }
+      return {
+        ...doc,
+        data: sanitizeResumeData(doc.data),
+      };
+    });
   } catch (err) {
     console.error('Failed to read from localStorage:', err);
     return [];

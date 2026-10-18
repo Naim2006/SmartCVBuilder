@@ -47,25 +47,25 @@ export const ResumeDocument: React.FC<ResumeDocumentProps> = ({ data, scale = 1 
 
   const sizeClass =
     {
-      xsmall: 'text-[10px] leading-snug',
-      compact: 'text-[11px] leading-tight',
-      normal: 'text-[12px] leading-normal',
-      spacious: 'text-[13px] leading-relaxed',
-      large: 'text-[14px] leading-relaxed',
-    }[settings.fontSize] || 'text-[12px] leading-normal';
+      xsmall: 'text-[9.5px] leading-tight',
+      compact: 'text-[10.5px] leading-snug',
+      normal: 'text-[11.5px] leading-snug',
+      spacious: 'text-[12.5px] leading-normal',
+      large: 'text-[13.5px] leading-relaxed',
+    }[settings.fontSize] || 'text-[11.5px] leading-snug';
 
   const spacingClass =
     {
       compact: 'space-y-1',
-      normal: 'space-y-2',
-      relaxed: 'space-y-3',
-    }[settings.spacing] || 'space-y-2';
+      normal: 'space-y-1.5',
+      relaxed: 'space-y-2.5',
+    }[settings.spacing] || 'space-y-1.5';
 
   const marginClass =
     {
-      compact: 'p-5 sm:p-6',
-      normal: 'p-6 sm:p-8',
-      spacious: 'p-8 sm:p-10',
+      compact: 'p-4 sm:p-5',
+      normal: 'p-5 sm:p-6',
+      spacious: 'p-6 sm:p-8',
     }[settings.marginSize || 'normal'];
 
   const renderTemplate = () => {

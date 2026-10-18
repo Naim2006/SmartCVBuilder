@@ -138,19 +138,100 @@ export const ExecutiveTemplate: React.FC<TemplateProps> = ({ data }) => {
           </section>
         );
 
+      case 'certifications':
+        if (data.certifications.length === 0 || !data.certifications.some((c) => c.name)) return null;
+        return (
+          <section key="certifications" className="resume-section mb-1.5">
+            <h2 className="text-xs font-bold uppercase tracking-widest text-gray-950 pb-0.5 mb-1 border-b-2 border-gray-800">
+              {getTitle('certifications', 'Certifications & Credentials')}
+            </h2>
+            <div className="space-y-0.5 text-xs text-gray-800">
+              {data.certifications.map((c) => (
+                <div key={c.id} className="flex justify-between items-baseline">
+                  <span><strong>{c.name}</strong> — {c.issuer}</span>
+                  <div className="flex items-center gap-2 text-[10px] text-gray-600">
+                    {c.date && <span>{c.date}</span>}
+                    {c.url && (
+                      <a
+                        href={c.url.startsWith('http') ? c.url : `https://${c.url}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-700 hover:underline font-semibold"
+                      >
+                        Verify ↗
+                      </a>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        );
+
       case 'awards':
         if (data.awards.length === 0) return null;
         return (
-          <section key="awards" className="resume-section mb-2">
-            <h2 className="text-xs font-bold uppercase tracking-widest text-gray-950 pb-0.5 mb-1.5 border-b-2 border-gray-800">
+          <section key="awards" className="resume-section mb-1.5">
+            <h2 className="text-xs font-bold uppercase tracking-widest text-gray-950 pb-0.5 mb-1 border-b-2 border-gray-800">
               {getTitle('awards', 'Executive Honors & Distinctions')}
             </h2>
-            <div className="space-y-1 text-xs">
+            <div className="space-y-0.5 text-xs">
               {data.awards.map((a) => (
                 <div key={a.id} className="flex justify-between">
                   <span><strong>{a.title}</strong> — {a.issuer}</span>
-                  <span className="text-gray-600 text-[11px]">{a.date}</span>
+                  <span className="text-gray-600 text-[10.5px]">{a.date}</span>
                 </div>
+              ))}
+            </div>
+          </section>
+        );
+
+      case 'volunteer':
+        if (data.volunteer.length === 0) return null;
+        return (
+          <section key="volunteer" className="resume-section mb-1.5">
+            <h2 className="text-xs font-bold uppercase tracking-widest text-gray-950 pb-0.5 mb-1 border-b-2 border-gray-800">
+              {getTitle('volunteer', 'Board & Community Leadership')}
+            </h2>
+            <div className="space-y-0.5 text-xs">
+              {data.volunteer.map((v) => (
+                <div key={v.id} className="flex justify-between items-baseline">
+                  <span><strong>{v.role}</strong> — {v.organization}</span>
+                  <span className="text-gray-500 text-[10.5px]">{v.startDate} – {v.current ? 'Present' : v.endDate}</span>
+                </div>
+              ))}
+            </div>
+          </section>
+        );
+
+      case 'courses':
+        if (data.courses.length === 0) return null;
+        return (
+          <section key="courses" className="resume-section mb-1.5">
+            <h2 className="text-xs font-bold uppercase tracking-widest text-gray-950 pb-0.5 mb-1 border-b-2 border-gray-800">
+              {getTitle('courses', 'Executive Education')}
+            </h2>
+            <div className="space-y-0.5 text-xs">
+              {data.courses.map((c) => (
+                <div key={c.id} className="flex justify-between items-baseline">
+                  <span><strong>{c.name}</strong> ({c.platform})</span>
+                  <span className="text-gray-500 text-[10.5px]">{c.date}</span>
+                </div>
+              ))}
+            </div>
+          </section>
+        );
+
+      case 'languages':
+        if (data.languages.length === 0) return null;
+        return (
+          <section key="languages" className="resume-section mb-1">
+            <h2 className="text-xs font-bold uppercase tracking-widest text-gray-950 pb-0.5 mb-1 border-b-2 border-gray-800">
+              {getTitle('languages', 'Languages')}
+            </h2>
+            <div className="flex flex-wrap gap-x-4 text-xs text-gray-800">
+              {data.languages.map((l) => (
+                <span key={l.id}><strong>{l.name}</strong> {l.level && `(${l.level})`}</span>
               ))}
             </div>
           </section>

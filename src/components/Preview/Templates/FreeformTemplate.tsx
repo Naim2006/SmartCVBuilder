@@ -46,11 +46,26 @@ export const FreeformTemplate: React.FC<TemplateProps> = ({ data }) => {
   };
 
   const formatInline = (text: string): React.ReactNode => {
-    // Basic bold parsing: **bold text**
-    const parts = text.split(/(\*\*[^*]+\*\*)/g);
+    // Parse bold: **bold** and markdown links: [text](url)
+    const tokenRegex = /(\*\*[^*]+\*\*|\[[^\]]+\]\([^)]+\))/g;
+    const parts = text.split(tokenRegex);
     return parts.map((part, idx) => {
       if (part.startsWith('**') && part.endsWith('**')) {
         return <strong key={idx}>{part.slice(2, -2)}</strong>;
+      }
+      const linkMatch = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+      if (linkMatch) {
+        return (
+          <a
+            key={idx}
+            href={linkMatch[2].startsWith('http') ? linkMatch[2] : `https://${linkMatch[2]}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-700 hover:underline font-semibold"
+          >
+            {linkMatch[1]} ↗
+          </a>
+        );
       }
       return part;
     });
@@ -70,7 +85,7 @@ export const FreeformTemplate: React.FC<TemplateProps> = ({ data }) => {
       renderedElements.push(
         <h2
           key={`heading-${index}`}
-          className="text-xs font-bold uppercase tracking-wider pb-0.5 mt-3 mb-1.5 border-b border-gray-400"
+          className="text-xs font-bold uppercase tracking-wider pb-0.5 mt-2 mb-1 border-b border-gray-400"
           style={{ color: settings.primaryColor }}
         >
           {title}
@@ -80,7 +95,7 @@ export const FreeformTemplate: React.FC<TemplateProps> = ({ data }) => {
       currentBulletList.push(trimmed.replace(/^[-*•]\s*/, ''));
     } else if (trimmed === '---' || trimmed === '___') {
       flushBullets(`bullet-flush-${index}`);
-      renderedElements.push(<hr key={`hr-${index}`} className="my-2 border-gray-300" />);
+      renderedElements.push(<hr key={`hr-${index}`} className="my-1.5 border-gray-300" />);
     } else {
       flushBullets(`bullet-flush-${index}`);
       renderedElements.push(
@@ -96,7 +111,7 @@ export const FreeformTemplate: React.FC<TemplateProps> = ({ data }) => {
   return (
     <div className="text-black bg-white w-full leading-normal">
       {/* Header */}
-      <header className="text-center pb-2.5 border-b border-gray-400 mb-3">
+      <header className="text-center pb-2 border-b border-gray-400 mb-2">
         <h1 className="text-2xl font-bold uppercase tracking-wider text-gray-950 mb-0.5">
           {personalDetails.fullName || 'YOUR NAME'}
         </h1>

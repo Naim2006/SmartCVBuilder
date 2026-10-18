@@ -63,9 +63,9 @@ export const ResumeDocument: React.FC<ResumeDocumentProps> = ({ data, scale = 1 
 
   const marginClass =
     {
-      compact: 'p-6 sm:p-7',
-      normal: 'p-8 sm:p-10',
-      spacious: 'p-10 sm:p-12',
+      compact: 'p-5 sm:p-6',
+      normal: 'p-6 sm:p-8',
+      spacious: 'p-8 sm:p-10',
     }[settings.marginSize || 'normal'];
 
   const renderTemplate = () => {

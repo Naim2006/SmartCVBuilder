@@ -203,9 +203,9 @@ export const SAMPLE_SOFTWARE_ENGINEER: ResumeData = {
     sectionOrder: [...DEFAULT_SECTION_ORDER],
     sectionVisibility: {
       ...DEFAULT_SECTION_VISIBILITY,
-      volunteer: true,
-      awards: true,
-      courses: true,
+      volunteer: false,
+      awards: false,
+      courses: false,
     },
     showIcons: true,
   },

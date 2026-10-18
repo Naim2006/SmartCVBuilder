@@ -8,6 +8,7 @@ interface TemplateProps {
 export const DeveloperTemplate: React.FC<TemplateProps> = ({ data }) => {
   const { personalDetails, settings } = data;
   const isVisible = (key: string) => settings.sectionVisibility[key] !== false;
+  const getTitle = (key: string, def: string) => settings.sectionTitles?.[key] || def;
 
   const contactItems = [
     personalDetails.email,
@@ -25,11 +26,11 @@ export const DeveloperTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'skills':
         if (data.skillCategories.length === 0 || !data.skillCategories.some((c) => c.skills.length > 0)) return null;
         return (
-          <section key="skills" className="resume-section mb-3.5">
-            <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 font-mono mb-1.5 bg-gray-100 px-1 py-0.5 inline-block">
-              TECHNICAL ARSENAL
+          <section key="skills" className="resume-section mb-2">
+            <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 font-mono mb-1 bg-gray-100 px-1 py-0.5 inline-block">
+              {getTitle('skills', 'TECHNICAL ARSENAL')}
             </h2>
-            <div className="grid grid-cols-1 gap-1 text-xs">
+            <div className="grid grid-cols-1 gap-0.5 text-xs">
               {data.skillCategories.map((cat) => {
                 if (cat.skills.length === 0) return null;
                 return (
@@ -48,11 +49,11 @@ export const DeveloperTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'experience':
         if (data.experience.length === 0 || !data.experience.some((e) => e.company || e.role)) return null;
         return (
-          <section key="experience" className="resume-section mb-3.5">
-            <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 font-mono mb-1.5 bg-gray-100 px-1 py-0.5 inline-block">
-              ENGINEERING EXPERIENCE
+          <section key="experience" className="resume-section mb-2">
+            <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 font-mono mb-1 bg-gray-100 px-1 py-0.5 inline-block">
+              {getTitle('experience', 'ENGINEERING EXPERIENCE')}
             </h2>
-            <div className="space-y-3">
+            <div className="space-y-1.5">
               {data.experience.map((exp) => {
                 if (!exp.company && !exp.role) return null;
                 return (
@@ -65,7 +66,7 @@ export const DeveloperTemplate: React.FC<TemplateProps> = ({ data }) => {
                         {exp.startDate} – {exp.current ? 'Present' : exp.endDate || 'Present'}
                       </span>
                     </div>
-                    <div className="text-[11px] text-gray-500 mb-1">{exp.location}</div>
+                    <div className="text-[11px] text-gray-500 mb-0.5">{exp.location}</div>
                     {exp.bullets.length > 0 && (
                       <ul className="list-disc list-outside ml-4 space-y-0.5 text-xs text-gray-800 leading-snug">
                         {exp.bullets.map((b, i) => b.trim() && <li key={i}>{b.trim()}</li>)}
@@ -81,31 +82,53 @@ export const DeveloperTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'projects':
         if (data.projects.length === 0 || !data.projects.some((p) => p.name)) return null;
         return (
-          <section key="projects" className="resume-section mb-3.5">
-            <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 font-mono mb-1.5 bg-gray-100 px-1 py-0.5 inline-block">
-              FEATURED SYSTEMS & PROJECTS
+          <section key="projects" className="resume-section mb-2">
+            <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 font-mono mb-1 bg-gray-100 px-1 py-0.5 inline-block">
+              {getTitle('projects', 'FEATURED SYSTEMS & PROJECTS')}
             </h2>
-            <div className="space-y-2.5">
+            <div className="space-y-1.5">
               {data.projects.map((proj) => {
                 if (!proj.name) return null;
                 return (
                   <div key={proj.id} className="resume-item text-xs">
                     <div className="flex justify-between items-baseline mb-0.5">
-                      <span className="font-bold text-gray-950 font-mono">{proj.name}</span>
-                      {(proj.liveUrl || proj.githubUrl) && (
-                        <span className="text-gray-600 font-mono text-[10px]">
-                          {[proj.liveUrl, proj.githubUrl].filter(Boolean).join(' | ')}
-                        </span>
-                      )}
-                    </div>
-                    {proj.techStack.length > 0 && (
-                      <div className="text-[11px] font-mono text-gray-600 mb-0.5">
-                        Tech: {proj.techStack.join(', ')}
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        <span className="font-bold text-gray-950 font-mono">{proj.name}</span>
+                        {proj.techStack.length > 0 && (
+                          <span className="text-[10.5px] font-mono text-gray-600">
+                            [{proj.techStack.join(', ')}]
+                          </span>
+                        )}
                       </div>
-                    )}
-                    {proj.description && <p className="text-gray-700 mb-0.5">{proj.description}</p>}
+                      {/* Right aligned links: Live Web and GitHub Repo */}
+                      <div className="flex items-center gap-2 text-[10.5px] font-medium text-gray-600">
+                        {proj.liveUrl && (
+                          <a
+                            href={proj.liveUrl.startsWith('http') ? proj.liveUrl : `https://${proj.liveUrl}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-700 hover:underline font-semibold font-mono inline-flex items-center gap-0.5"
+                          >
+                            <span>Live Web</span>
+                            <span className="text-[9px]">↗</span>
+                          </a>
+                        )}
+                        {proj.githubUrl && (
+                          <a
+                            href={proj.githubUrl.startsWith('http') ? proj.githubUrl : `https://${proj.githubUrl}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-700 hover:underline font-semibold font-mono inline-flex items-center gap-0.5"
+                          >
+                            <span>GitHub Repo</span>
+                            <span className="text-[9px]">↗</span>
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                    {proj.description && <p className="text-[11.5px] text-gray-700 mb-0.5">{proj.description}</p>}
                     {proj.bullets.length > 0 && (
-                      <ul className="list-disc list-outside ml-4 space-y-0.5 text-gray-800">
+                      <ul className="list-disc list-outside ml-4 space-y-0.5 text-xs text-gray-800">
                         {proj.bullets.map((b, i) => b.trim() && <li key={i}>{b.trim()}</li>)}
                       </ul>
                     )}
@@ -119,13 +142,13 @@ export const DeveloperTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'education':
         if (data.education.length === 0 || !data.education.some((e) => e.institution || e.degree)) return null;
         return (
-          <section key="education" className="resume-section mb-3.5">
+          <section key="education" className="resume-section mb-2">
             <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 font-mono mb-1 bg-gray-100 px-1 py-0.5 inline-block">
-              EDUCATION
+              {getTitle('education', 'EDUCATION')}
             </h2>
-            <div className="space-y-1.5">
+            <div className="space-y-1">
               {data.education.map((edu) => (
-                <div key={edu.id} className="resume-item text-xs flex justify-between">
+                <div key={edu.id} className="resume-item text-xs flex justify-between items-baseline">
                   <div>
                     <span className="font-bold text-gray-950">{edu.degree} {edu.fieldOfStudy ? `in ${edu.fieldOfStudy}` : ''}</span>
                     <span className="text-gray-700"> — {edu.institution}</span>
@@ -143,15 +166,31 @@ export const DeveloperTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'certifications':
         if (data.certifications.length === 0 || !data.certifications.some((c) => c.name)) return null;
         return (
-          <section key="certifications" className="resume-section mb-3.5">
+          <section key="certifications" className="resume-section mb-2">
             <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 font-mono mb-1 bg-gray-100 px-1 py-0.5 inline-block">
-              CERTIFICATIONS
+              {getTitle('certifications', 'CERTIFICATIONS')}
             </h2>
-            <div className="text-xs text-gray-800 flex flex-wrap gap-x-4">
+            <div className="text-xs text-gray-800 space-y-1">
               {data.certifications.map((c) => (
-                <span key={c.id}>
-                  <strong>{c.name}</strong> ({c.issuer}, {c.date})
-                </span>
+                <div key={c.id} className="flex justify-between items-baseline">
+                  <div>
+                    <span className="font-bold">{c.name}</span>
+                    {c.issuer && <span className="text-gray-600"> ({c.issuer})</span>}
+                  </div>
+                  <div className="flex items-center gap-2 text-[10.5px] text-gray-600">
+                    {c.date && <span className="font-mono">{c.date}</span>}
+                    {c.url && (
+                      <a
+                        href={c.url.startsWith('http') ? c.url : `https://${c.url}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-700 hover:underline font-semibold font-mono"
+                      >
+                        Verify Certificate ↗
+                      </a>
+                    )}
+                  </div>
+                </div>
               ))}
             </div>
           </section>
@@ -164,7 +203,7 @@ export const DeveloperTemplate: React.FC<TemplateProps> = ({ data }) => {
 
   return (
     <div className="text-gray-900 bg-white w-full leading-normal">
-      <header className="pb-2.5 mb-3 border-b-2 border-gray-900">
+      <header className="pb-2 mb-2 border-b-2 border-gray-900">
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline">
           <h1 className="text-2xl font-black tracking-tight text-gray-950 font-mono">
             {personalDetails.fullName || 'YOUR NAME'}
@@ -185,7 +224,7 @@ export const DeveloperTemplate: React.FC<TemplateProps> = ({ data }) => {
       </header>
 
       {personalDetails.summary.trim() && (
-        <section className="resume-section mb-3">
+        <section className="resume-section mb-2">
           <p className="text-xs text-gray-800 leading-relaxed">{personalDetails.summary}</p>
         </section>
       )}

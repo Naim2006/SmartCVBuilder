@@ -8,6 +8,7 @@ interface TemplateProps {
 export const CompactTemplate: React.FC<TemplateProps> = ({ data }) => {
   const { personalDetails, settings } = data;
   const isVisible = (key: string) => settings.sectionVisibility[key] !== false;
+  const getTitle = (key: string, def: string) => settings.sectionTitles?.[key] || def;
 
   const contactItems = [
     personalDetails.email,
@@ -25,11 +26,11 @@ export const CompactTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'experience':
         if (data.experience.length === 0 || !data.experience.some((e) => e.company || e.role)) return null;
         return (
-          <section key="experience" className="resume-section mb-2.5">
+          <section key="experience" className="resume-section mb-2">
             <h2 className="text-[11px] font-bold uppercase tracking-wider text-gray-950 border-b border-gray-400 pb-0.5 mb-1">
-              Experience
+              {getTitle('experience', 'Experience')}
             </h2>
-            <div className="space-y-1.5">
+            <div className="space-y-1">
               {data.experience.map((exp) => {
                 if (!exp.company && !exp.role) return null;
                 return (
@@ -57,13 +58,13 @@ export const CompactTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'education':
         if (data.education.length === 0 || !data.education.some((e) => e.institution || e.degree)) return null;
         return (
-          <section key="education" className="resume-section mb-2.5">
+          <section key="education" className="resume-section mb-2">
             <h2 className="text-[11px] font-bold uppercase tracking-wider text-gray-950 border-b border-gray-400 pb-0.5 mb-1">
-              Education
+              {getTitle('education', 'Education')}
             </h2>
             <div className="space-y-1">
               {data.education.map((edu) => (
-                <div key={edu.id} className="resume-item text-[11px] flex justify-between">
+                <div key={edu.id} className="resume-item text-[11px] flex justify-between items-baseline">
                   <span>
                     <strong>{edu.degree}</strong> {edu.fieldOfStudy ? `in ${edu.fieldOfStudy}` : ''} — {edu.institution}
                     {edu.gpa ? ` (GPA: ${edu.gpa})` : ''}
@@ -78,9 +79,9 @@ export const CompactTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'skills':
         if (data.skillCategories.length === 0 || !data.skillCategories.some((c) => c.skills.length > 0)) return null;
         return (
-          <section key="skills" className="resume-section mb-2.5">
+          <section key="skills" className="resume-section mb-2">
             <h2 className="text-[11px] font-bold uppercase tracking-wider text-gray-950 border-b border-gray-400 pb-0.5 mb-1">
-              Skills
+              {getTitle('skills', 'Skills')}
             </h2>
             <div className="space-y-0.5 text-[11px] text-gray-800">
               {data.skillCategories.map((cat) => (
@@ -96,16 +97,37 @@ export const CompactTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'projects':
         if (data.projects.length === 0 || !data.projects.some((p) => p.name)) return null;
         return (
-          <section key="projects" className="resume-section mb-2.5">
+          <section key="projects" className="resume-section mb-2">
             <h2 className="text-[11px] font-bold uppercase tracking-wider text-gray-950 border-b border-gray-400 pb-0.5 mb-1">
-              Projects
+              {getTitle('projects', 'Projects')}
             </h2>
             <div className="space-y-1 text-[11px]">
               {data.projects.map((proj) => (
                 <div key={proj.id} className="resume-item">
-                  <div className="flex justify-between font-bold text-gray-950">
+                  <div className="flex justify-between items-baseline font-bold text-gray-950">
                     <span>{proj.name}{proj.techStack.length > 0 ? ` (${proj.techStack.join(', ')})` : ''}</span>
-                    {proj.liveUrl && <span className="font-normal text-gray-600 text-[10px]">{proj.liveUrl}</span>}
+                    <div className="flex items-center gap-2 text-[10px] font-normal text-gray-600">
+                      {proj.liveUrl && (
+                        <a
+                          href={proj.liveUrl.startsWith('http') ? proj.liveUrl : `https://${proj.liveUrl}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-700 hover:underline font-semibold"
+                        >
+                          Live Web ↗
+                        </a>
+                      )}
+                      {proj.githubUrl && (
+                        <a
+                          href={proj.githubUrl.startsWith('http') ? proj.githubUrl : `https://${proj.githubUrl}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-700 hover:underline font-semibold"
+                        >
+                          GitHub Repo ↗
+                        </a>
+                      )}
+                    </div>
                   </div>
                   {proj.bullets.map((b, i) => b.trim() && <div key={i} className="text-gray-700 pl-2">• {b.trim()}</div>)}
                 </div>
@@ -117,13 +139,28 @@ export const CompactTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'certifications':
         if (data.certifications.length === 0) return null;
         return (
-          <section key="certifications" className="resume-section mb-2">
+          <section key="certifications" className="resume-section mb-1.5">
             <h2 className="text-[11px] font-bold uppercase tracking-wider text-gray-950 border-b border-gray-400 pb-0.5 mb-1">
-              Certifications
+              {getTitle('certifications', 'Certifications')}
             </h2>
-            <div className="flex flex-wrap gap-x-4 text-[11px] text-gray-800">
+            <div className="space-y-0.5 text-[11px] text-gray-800">
               {data.certifications.map((c) => (
-                <span key={c.id}><strong>{c.name}</strong> ({c.issuer})</span>
+                <div key={c.id} className="flex justify-between items-baseline">
+                  <span><strong>{c.name}</strong> ({c.issuer})</span>
+                  <div className="flex items-center gap-2 text-[10px] text-gray-600">
+                    {c.date && <span>{c.date}</span>}
+                    {c.url && (
+                      <a
+                        href={c.url.startsWith('http') ? c.url : `https://${c.url}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-700 hover:underline font-semibold"
+                      >
+                        Verify ↗
+                      </a>
+                    )}
+                  </div>
+                </div>
               ))}
             </div>
           </section>
@@ -132,9 +169,9 @@ export const CompactTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'languages':
         if (data.languages.length === 0) return null;
         return (
-          <section key="languages" className="resume-section mb-2">
+          <section key="languages" className="resume-section mb-1.5">
             <h2 className="text-[11px] font-bold uppercase tracking-wider text-gray-950 border-b border-gray-400 pb-0.5 mb-1">
-              Languages
+              {getTitle('languages', 'Languages')}
             </h2>
             <div className="flex flex-wrap gap-x-3 text-[11px]">
               {data.languages.map((l) => (
@@ -151,7 +188,7 @@ export const CompactTemplate: React.FC<TemplateProps> = ({ data }) => {
 
   return (
     <div className="text-gray-900 bg-white w-full leading-tight">
-      <header className="mb-2.5 pb-1 border-b border-gray-400">
+      <header className="mb-2 pb-1 border-b border-gray-400">
         <h1 className="text-xl font-bold tracking-tight text-gray-950">
           {personalDetails.fullName || 'YOUR NAME'}
         </h1>
@@ -168,7 +205,7 @@ export const CompactTemplate: React.FC<TemplateProps> = ({ data }) => {
       </header>
 
       {personalDetails.summary.trim() && (
-        <section className="resume-section mb-2">
+        <section className="resume-section mb-1.5">
           <p className="text-[11px] text-gray-800 leading-tight">{personalDetails.summary}</p>
         </section>
       )}

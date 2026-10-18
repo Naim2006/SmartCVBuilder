@@ -144,6 +144,7 @@ export interface ResumeSettings {
   spacing: SpacingType;
   marginSize?: MarginType;
   fitOnePage?: boolean;
+  paperSize?: 'a4' | 'letter';
   primaryColor: string;
   sectionOrder: string[];
   sectionVisibility: Record<string, boolean>;

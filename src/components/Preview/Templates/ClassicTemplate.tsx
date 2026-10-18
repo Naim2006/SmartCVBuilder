@@ -10,6 +10,19 @@ export const ClassicTemplate: React.FC<TemplateProps> = ({ data }) => {
   const isVisible = (key: string) => settings.sectionVisibility[key] !== false;
   const getTitle = (key: string, def: string) => settings.sectionTitles?.[key] || def;
 
+  // Dynamic spacing based on user preference or page fill mode
+  const sSpacing = {
+    compact: 'mb-1.5',
+    normal: 'mb-2.5',
+    relaxed: 'mb-3.5',
+  }[settings.spacing || 'normal'];
+
+  const iSpacing = {
+    compact: 'space-y-1',
+    normal: 'space-y-1.5',
+    relaxed: 'space-y-2',
+  }[settings.spacing || 'normal'];
+
   const contactItems = [
     personalDetails.phone,
     personalDetails.email,
@@ -28,14 +41,14 @@ export const ClassicTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'experience':
         if (data.experience.length === 0 || !data.experience.some((e) => e.company || e.role)) return null;
         return (
-          <section key="experience" className="resume-section mb-1.5">
+          <section key="experience" className={`resume-section ${sSpacing}`}>
             <h2
               className="text-xs font-bold uppercase tracking-wider pb-0.5 mb-0.5 border-b border-gray-400"
               style={{ color: settings.primaryColor }}
             >
               {getTitle('experience', 'Work Experience')}
             </h2>
-            <div className="space-y-1">
+            <div className={iSpacing}>
               {data.experience.map((exp) => {
                 if (!exp.company && !exp.role) return null;
                 return (
@@ -67,14 +80,14 @@ export const ClassicTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'education':
         if (data.education.length === 0 || !data.education.some((e) => e.institution || e.degree)) return null;
         return (
-          <section key="education" className="resume-section mb-1.5">
+          <section key="education" className={`resume-section ${sSpacing}`}>
             <h2
               className="text-xs font-bold uppercase tracking-wider pb-0.5 mb-0.5 border-b border-gray-400"
               style={{ color: settings.primaryColor }}
             >
               {getTitle('education', 'Education')}
             </h2>
-            <div className="space-y-1">
+            <div className={iSpacing}>
               {data.education.map((edu) => {
                 if (!edu.institution && !edu.degree) return null;
                 return (
@@ -110,7 +123,7 @@ export const ClassicTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'skills':
         if (data.skillCategories.length === 0 || !data.skillCategories.some((c) => c.skills.length > 0)) return null;
         return (
-          <section key="skills" className="resume-section mb-1.5">
+          <section key="skills" className={`resume-section ${sSpacing}`}>
             <h2
               className="text-xs font-bold uppercase tracking-wider pb-0.5 mb-0.5 border-b border-gray-400"
               style={{ color: settings.primaryColor }}
@@ -134,14 +147,14 @@ export const ClassicTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'projects':
         if (data.projects.length === 0 || !data.projects.some((p) => p.name)) return null;
         return (
-          <section key="projects" className="resume-section mb-1.5">
+          <section key="projects" className={`resume-section ${sSpacing}`}>
             <h2
               className="text-xs font-bold uppercase tracking-wider pb-0.5 mb-0.5 border-b border-gray-400"
               style={{ color: settings.primaryColor }}
             >
               {getTitle('projects', 'Key Projects')}
             </h2>
-            <div className="space-y-1">
+            <div className={iSpacing}>
               {data.projects.map((proj) => {
                 if (!proj.name) return null;
                 return (
@@ -197,7 +210,7 @@ export const ClassicTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'certifications':
         if (data.certifications.length === 0 || !data.certifications.some((c) => c.name)) return null;
         return (
-          <section key="certifications" className="resume-section mb-1.5">
+          <section key="certifications" className={`resume-section ${sSpacing}`}>
             <h2
               className="text-xs font-bold uppercase tracking-wider pb-0.5 mb-0.5 border-b border-gray-400"
               style={{ color: settings.primaryColor }}
@@ -236,7 +249,7 @@ export const ClassicTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'volunteer':
         if (data.volunteer.length === 0 || !data.volunteer.some((v) => v.role || v.organization)) return null;
         return (
-          <section key="volunteer" className="resume-section mb-1.5">
+          <section key="volunteer" className={`resume-section ${sSpacing}`}>
             <h2
               className="text-xs font-bold uppercase tracking-wider pb-0.5 mb-0.5 border-b border-gray-400"
               style={{ color: settings.primaryColor }}
@@ -260,7 +273,7 @@ export const ClassicTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'awards':
         if (data.awards.length === 0 || !data.awards.some((a) => a.title)) return null;
         return (
-          <section key="awards" className="resume-section mb-1.5">
+          <section key="awards" className={`resume-section ${sSpacing}`}>
             <h2
               className="text-xs font-bold uppercase tracking-wider pb-0.5 mb-0.5 border-b border-gray-400"
               style={{ color: settings.primaryColor }}
@@ -281,7 +294,7 @@ export const ClassicTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'courses':
         if (data.courses.length === 0 || !data.courses.some((c) => c.name)) return null;
         return (
-          <section key="courses" className="resume-section mb-1.5">
+          <section key="courses" className={`resume-section ${sSpacing}`}>
             <h2
               className="text-xs font-bold uppercase tracking-wider pb-0.5 mb-0.5 border-b border-gray-400"
               style={{ color: settings.primaryColor }}
@@ -314,7 +327,7 @@ export const ClassicTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'languages':
         if (data.languages.length === 0 || !data.languages.some((l) => l.name)) return null;
         return (
-          <section key="languages" className="resume-section mb-1">
+          <section key="languages" className={`resume-section ${sSpacing}`}>
             <h2
               className="text-xs font-bold uppercase tracking-wider pb-0.5 mb-0.5 border-b border-gray-400"
               style={{ color: settings.primaryColor }}
@@ -334,7 +347,7 @@ export const ClassicTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'publications':
         if (data.publications.length === 0 || !data.publications.some((p) => p.title)) return null;
         return (
-          <section key="publications" className="resume-section mb-2">
+          <section key="publications" className={`resume-section ${sSpacing}`}>
             <h2
               className="text-xs font-bold uppercase tracking-wider pb-0.5 mb-1 border-b border-gray-400"
               style={{ color: settings.primaryColor }}
@@ -369,7 +382,7 @@ export const ClassicTemplate: React.FC<TemplateProps> = ({ data }) => {
         return (
           <React.Fragment key="custom">
             {data.customSections.map((csec) => (
-              <section key={csec.id} className="resume-section mb-2">
+              <section key={csec.id} className={`resume-section ${sSpacing}`}>
                 <h2
                   className="text-xs font-bold uppercase tracking-wider pb-0.5 mb-1 border-b border-gray-400"
                   style={{ color: settings.primaryColor }}
@@ -406,7 +419,7 @@ export const ClassicTemplate: React.FC<TemplateProps> = ({ data }) => {
   return (
     <div className="text-black bg-white w-full leading-normal">
       {/* Header */}
-      <header className="text-center pb-1.5 border-b border-gray-400 mb-1.5">
+      <header className={`text-center pb-2 border-b border-gray-400 ${sSpacing}`}>
         <h1 className="text-xl sm:text-2xl font-bold uppercase tracking-wider text-gray-950 mb-0.5">
           {personalDetails.fullName || 'YOUR NAME'}
         </h1>
@@ -427,7 +440,7 @@ export const ClassicTemplate: React.FC<TemplateProps> = ({ data }) => {
 
       {/* Summary */}
       {personalDetails.summary.trim() && (
-        <section className="resume-section mb-1.5">
+        <section className={`resume-section ${sSpacing}`}>
           <h2
             className="text-xs font-bold uppercase tracking-wider pb-0.5 mb-0.5 border-b border-gray-400"
             style={{ color: settings.primaryColor }}

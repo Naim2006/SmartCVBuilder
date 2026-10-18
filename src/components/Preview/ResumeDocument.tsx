@@ -18,8 +18,12 @@ export const ResumeDocument: React.FC<ResumeDocumentProps> = ({ data, scale = 1 
   const docRef = useRef<HTMLDivElement>(null);
   const [docHeight, setDocHeight] = useState<number>(0);
 
-  // A4 standard height at 96 DPI is approximately 1122px (297mm)
-  const A4_PAGE_HEIGHT = 1122;
+  // Paper standard heights and widths at 96 DPI:
+  // A4: 210mm × 297mm ≈ 794px × 1122px
+  // US Letter: 8.5" × 11" (215.9mm × 279.4mm) ≈ 816px × 1056px
+  const isLetter = settings.paperSize === 'letter';
+  const PAGE_HEIGHT = isLetter ? 1056 : 1122;
+  const pageLabel = isLetter ? 'US Letter' : 'A4';
 
   useEffect(() => {
     if (!docRef.current) return;
@@ -30,10 +34,10 @@ export const ResumeDocument: React.FC<ResumeDocumentProps> = ({ data, scale = 1 
     });
     observer.observe(docRef.current);
     return () => observer.disconnect();
-  }, [data]);
+  }, [data, settings.paperSize]);
 
-  const isOverOnePage = docHeight > A4_PAGE_HEIGHT + 10;
-  const calculatedPageCount = Math.max(1, Math.ceil(docHeight / A4_PAGE_HEIGHT));
+  const isOverOnePage = docHeight > PAGE_HEIGHT + 10;
+  const calculatedPageCount = Math.max(1, Math.ceil(docHeight / PAGE_HEIGHT));
 
   const fontClass =
     {
@@ -47,25 +51,25 @@ export const ResumeDocument: React.FC<ResumeDocumentProps> = ({ data, scale = 1 
 
   const sizeClass =
     {
-      xsmall: 'text-[9.5px] leading-tight',
-      compact: 'text-[10.5px] leading-snug',
-      normal: 'text-[11.5px] leading-snug',
-      spacious: 'text-[12.5px] leading-normal',
-      large: 'text-[13.5px] leading-relaxed',
-    }[settings.fontSize] || 'text-[11.5px] leading-snug';
+      xsmall: 'text-[10px] leading-snug',
+      compact: 'text-[11px] leading-snug',
+      normal: 'text-[12px] leading-normal',
+      spacious: 'text-[13px] leading-relaxed',
+      large: 'text-[14px] leading-relaxed',
+    }[settings.fontSize] || 'text-[12px] leading-normal';
 
   const spacingClass =
     {
       compact: 'space-y-1',
-      normal: 'space-y-1.5',
-      relaxed: 'space-y-2.5',
-    }[settings.spacing] || 'space-y-1.5';
+      normal: 'space-y-2',
+      relaxed: 'space-y-3',
+    }[settings.spacing] || 'space-y-2';
 
   const marginClass =
     {
-      compact: 'p-4 sm:p-5',
-      normal: 'p-5 sm:p-6',
-      spacious: 'p-6 sm:p-8',
+      compact: 'p-5 sm:p-6',
+      normal: 'p-6 sm:p-8',
+      spacious: 'p-8 sm:p-10',
     }[settings.marginSize || 'normal'];
 
   const renderTemplate = () => {
@@ -99,13 +103,13 @@ export const ResumeDocument: React.FC<ResumeDocumentProps> = ({ data, scale = 1 
         {settings.fitOnePage || !isOverOnePage ? (
           <span className="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-700 border border-emerald-200 px-3 py-1 rounded-full text-[11px] font-semibold shadow-2xs">
             <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-            <span>Fits on exactly 1 Page ({docHeight}px / {A4_PAGE_HEIGHT}px)</span>
+            <span>Fits on exactly 1 Page ({docHeight}px / {PAGE_HEIGHT}px • {pageLabel})</span>
           </span>
         ) : (
           <span className="inline-flex items-center gap-1.5 bg-amber-50 text-amber-800 border border-amber-300 px-3 py-1 rounded-full text-[11px] font-semibold shadow-2xs">
             <AlertTriangle className="w-3.5 h-3.5 text-amber-600" />
             <span>
-              Spills over to {calculatedPageCount} Pages. Reduce font size or enable "Fit 1 Page".
+              Spills over {pageLabel} ({calculatedPageCount} Pages). Reduce spacing or use "Fit 1 Page".
             </span>
           </span>
         )}
@@ -114,10 +118,13 @@ export const ResumeDocument: React.FC<ResumeDocumentProps> = ({ data, scale = 1 
       <div
         ref={docRef}
         id="cv-document"
-        className={`bg-white text-gray-900 shadow-xl rounded-sm w-full max-w-[800px] min-h-[1122px] box-border relative border border-slate-200 ${fontClass} ${sizeClass} ${spacingClass} ${marginClass} ${
+        className={`bg-white text-gray-900 shadow-xl rounded-sm w-full ${
+          isLetter ? 'max-w-[816px]' : 'max-w-[800px]'
+        } box-border relative border border-slate-200 paper-${settings.paperSize || 'a4'} ${fontClass} ${sizeClass} ${spacingClass} ${marginClass} ${
           settings.fitOnePage ? 'strict-one-page' : ''
         }`}
         style={{
+          minHeight: `${PAGE_HEIGHT}px`,
           fontFamily:
             settings.font === 'times'
               ? '"Times New Roman", Times, serif'
@@ -132,13 +139,13 @@ export const ResumeDocument: React.FC<ResumeDocumentProps> = ({ data, scale = 1 
       >
         {renderTemplate()}
 
-        {/* Visual A4 Page 1 Boundary Indicator (Visible only in screen preview if content overflows) */}
+        {/* Visual Page 1 Boundary Indicator (Visible only in screen preview if content overflows) */}
         {isOverOnePage && (
           <div
             className="no-print absolute left-0 right-0 border-b-2 border-dashed border-rose-400 pointer-events-none z-10 flex items-center justify-between px-3 py-0.5 bg-rose-50/90 text-[10px] font-bold text-rose-600 shadow-xs"
-            style={{ top: `${A4_PAGE_HEIGHT}px` }}
+            style={{ top: `${PAGE_HEIGHT}px` }}
           >
-            <span>✂️ PAGE 1 END (A4 Boundary)</span>
+            <span>✂️ PAGE 1 END ({pageLabel} Boundary)</span>
             <span>Content below this line will print on Page 2</span>
           </div>
         )}

@@ -10,7 +10,7 @@ import {
   Loader2,
   Sparkles,
 } from 'lucide-react';
-import type { TemplateType, FontType, FontSize, ResumeSettings, MarginType } from '../../types/cv';
+import type { TemplateType, FontType, FontSize, ResumeSettings, MarginType, SpacingType } from '../../types/cv';
 
 interface PreviewControlsProps {
   settings: ResumeSettings;
@@ -61,6 +61,17 @@ export const PreviewControls: React.FC<PreviewControlsProps> = ({
     { id: 'large', label: 'Large', pt: '14pt' },
   ];
 
+  const paperSizes: { id: 'a4' | 'letter'; label: string }[] = [
+    { id: 'a4', label: 'A4 Paper (Standard)' },
+    { id: 'letter', label: 'US Letter (8.5×11")' },
+  ];
+
+  const spacings: { id: SpacingType; label: string }[] = [
+    { id: 'compact', label: 'Compact Spacing' },
+    { id: 'normal', label: 'Balanced (Standard)' },
+    { id: 'relaxed', label: 'Spacious (Fill Page)' },
+  ];
+
   const margins: { id: MarginType; label: string }[] = [
     { id: 'compact', label: 'Compact Margins' },
     { id: 'normal', label: 'Normal Margins' },
@@ -86,12 +97,12 @@ export const PreviewControls: React.FC<PreviewControlsProps> = ({
   const toggleFitOnePage = () => {
     const nextFit = !settings.fitOnePage;
     if (nextFit) {
-      // Auto compress to fit 1 page
+      // Auto compress/balance to fill 1 page nicely
       onUpdateSettings({
         fitOnePage: true,
-        fontSize: 'compact',
-        spacing: 'compact',
-        marginSize: 'compact',
+        fontSize: 'normal',
+        spacing: 'normal',
+        marginSize: 'normal',
       });
     } else {
       onUpdateSettings({ fitOnePage: false });
@@ -194,11 +205,39 @@ export const PreviewControls: React.FC<PreviewControlsProps> = ({
             </button>
           </div>
 
+          {/* Spacing / Page Fill Mode */}
+          <select
+            value={settings.spacing || 'normal'}
+            onChange={(e) => onUpdateSettings({ spacing: e.target.value as SpacingType })}
+            className="bg-slate-50 border border-slate-300 text-slate-800 text-xs rounded-xl px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-blue-500"
+            title="Adjust vertical spacing between sections (Compact fits more, Spacious fills page)"
+          >
+            {spacings.map((sp) => (
+              <option key={sp.id} value={sp.id}>
+                {sp.label}
+              </option>
+            ))}
+          </select>
+
+          {/* Paper Size (A4 vs US Letter) */}
+          <select
+            value={settings.paperSize || 'a4'}
+            onChange={(e) => onUpdateSettings({ paperSize: e.target.value as 'a4' | 'letter' })}
+            className="bg-slate-50 border border-slate-300 text-slate-800 text-xs rounded-xl px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-blue-500"
+            title="Paper Size: A4 vs US Letter"
+          >
+            {paperSizes.map((p) => (
+              <option key={p.id} value={p.id}>
+                {p.label}
+              </option>
+            ))}
+          </select>
+
           {/* Margins */}
           <select
             value={settings.marginSize || 'normal'}
             onChange={(e) => onUpdateSettings({ marginSize: e.target.value as MarginType })}
-            className="bg-slate-50 border border-slate-300 text-slate-800 text-xs rounded-xl px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-blue-500 hidden md:inline-block"
+            className="bg-slate-50 border border-slate-300 text-slate-800 text-xs rounded-xl px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-blue-500 hidden xl:inline-block"
             title="Page Margins"
           >
             {margins.map((m) => (

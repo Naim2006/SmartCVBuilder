@@ -35,7 +35,6 @@
 /* Print Styles for Pristine ATS Vector PDF Export */
 @media print {
   @page {
-    size: A4 portrait;
     margin: 0 !important;
   }
 
@@ -87,12 +86,20 @@
     border: none !important;
     border-radius: 0 !important;
     margin: 0 auto !important;
-    padding: 8mm 10mm !important;
+    padding: 10mm 12mm !important;
     width: 100% !important;
     max-width: 100% !important;
     min-height: auto !important;
     background: #ffffff !important;
     color: #000000 !important;
+  }
+
+  #cv-document.paper-letter {
+    max-width: 215.9mm !important;
+  }
+
+  #cv-document.paper-a4 {
+    max-width: 210mm !important;
   }
 
   #cv-document * {

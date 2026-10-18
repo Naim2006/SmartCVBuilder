@@ -10,6 +10,19 @@ export const ExecutiveTemplate: React.FC<TemplateProps> = ({ data }) => {
   const isVisible = (key: string) => settings.sectionVisibility[key] !== false;
   const getTitle = (key: string, def: string) => settings.sectionTitles?.[key] || def;
 
+  // Dynamic spacing based on user preference or page fill mode
+  const sSpacing = {
+    compact: 'mb-1.5',
+    normal: 'mb-2.5',
+    relaxed: 'mb-3.5',
+  }[settings.spacing || 'normal'];
+
+  const iSpacing = {
+    compact: 'space-y-1',
+    normal: 'space-y-1.5',
+    relaxed: 'space-y-2',
+  }[settings.spacing || 'normal'];
+
   const contactItems = [
     personalDetails.phone,
     personalDetails.email,
@@ -25,11 +38,11 @@ export const ExecutiveTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'experience':
         if (data.experience.length === 0 || !data.experience.some((e) => e.company || e.role)) return null;
         return (
-          <section key="experience" className="resume-section mb-2">
+          <section key="experience" className={`resume-section ${sSpacing}`}>
             <h2 className="text-xs font-bold uppercase tracking-widest text-gray-950 pb-0.5 mb-1.5 border-b-2 border-gray-800">
               {getTitle('experience', 'Executive Experience')}
             </h2>
-            <div className="space-y-2">
+            <div className={iSpacing}>
               {data.experience.map((exp) => {
                 if (!exp.company && !exp.role) return null;
                 return (
@@ -59,11 +72,11 @@ export const ExecutiveTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'education':
         if (data.education.length === 0 || !data.education.some((e) => e.institution || e.degree)) return null;
         return (
-          <section key="education" className="resume-section mb-2">
+          <section key="education" className={`resume-section ${sSpacing}`}>
             <h2 className="text-xs font-bold uppercase tracking-widest text-gray-950 pb-0.5 mb-1.5 border-b-2 border-gray-800">
               {getTitle('education', 'Education & Credentials')}
             </h2>
-            <div className="space-y-1.5">
+            <div className={iSpacing}>
               {data.education.map((edu) => (
                 <div key={edu.id} className="resume-item text-xs">
                   <div className="flex justify-between items-baseline font-bold text-gray-950">
@@ -81,7 +94,7 @@ export const ExecutiveTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'skills':
         if (data.skillCategories.length === 0 || !data.skillCategories.some((c) => c.skills.length > 0)) return null;
         return (
-          <section key="skills" className="resume-section mb-2">
+          <section key="skills" className={`resume-section ${sSpacing}`}>
             <h2 className="text-xs font-bold uppercase tracking-widest text-gray-950 pb-0.5 mb-1.5 border-b-2 border-gray-800">
               {getTitle('skills', 'Core Competencies')}
             </h2>
@@ -99,11 +112,11 @@ export const ExecutiveTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'projects':
         if (data.projects.length === 0 || !data.projects.some((p) => p.name)) return null;
         return (
-          <section key="projects" className="resume-section mb-2">
+          <section key="projects" className={`resume-section ${sSpacing}`}>
             <h2 className="text-xs font-bold uppercase tracking-widest text-gray-950 pb-0.5 mb-1.5 border-b-2 border-gray-800">
               {getTitle('projects', 'Strategic Initiatives')}
             </h2>
-            <div className="space-y-1.5">
+            <div className={iSpacing}>
               {data.projects.map((proj) => (
                 <div key={proj.id} className="resume-item text-xs">
                   <div className="flex justify-between items-baseline font-bold text-gray-950">
@@ -141,11 +154,11 @@ export const ExecutiveTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'certifications':
         if (data.certifications.length === 0 || !data.certifications.some((c) => c.name)) return null;
         return (
-          <section key="certifications" className="resume-section mb-1.5">
+          <section key="certifications" className={`resume-section ${sSpacing}`}>
             <h2 className="text-xs font-bold uppercase tracking-widest text-gray-950 pb-0.5 mb-1 border-b-2 border-gray-800">
               {getTitle('certifications', 'Certifications & Credentials')}
             </h2>
-            <div className="space-y-0.5 text-xs text-gray-800">
+            <div className={`space-y-0.5 text-xs text-gray-800 ${iSpacing}`}>
               {data.certifications.map((c) => (
                 <div key={c.id} className="flex justify-between items-baseline">
                   <span><strong>{c.name}</strong> — {c.issuer}</span>
@@ -171,11 +184,11 @@ export const ExecutiveTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'awards':
         if (data.awards.length === 0) return null;
         return (
-          <section key="awards" className="resume-section mb-1.5">
+          <section key="awards" className={`resume-section ${sSpacing}`}>
             <h2 className="text-xs font-bold uppercase tracking-widest text-gray-950 pb-0.5 mb-1 border-b-2 border-gray-800">
               {getTitle('awards', 'Executive Honors & Distinctions')}
             </h2>
-            <div className="space-y-0.5 text-xs">
+            <div className={`${iSpacing} text-xs`}>
               {data.awards.map((a) => (
                 <div key={a.id} className="flex justify-between">
                   <span><strong>{a.title}</strong> — {a.issuer}</span>
@@ -189,11 +202,11 @@ export const ExecutiveTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'volunteer':
         if (data.volunteer.length === 0) return null;
         return (
-          <section key="volunteer" className="resume-section mb-1.5">
+          <section key="volunteer" className={`resume-section ${sSpacing}`}>
             <h2 className="text-xs font-bold uppercase tracking-widest text-gray-950 pb-0.5 mb-1 border-b-2 border-gray-800">
               {getTitle('volunteer', 'Board & Community Leadership')}
             </h2>
-            <div className="space-y-0.5 text-xs">
+            <div className={`${iSpacing} text-xs`}>
               {data.volunteer.map((v) => (
                 <div key={v.id} className="flex justify-between items-baseline">
                   <span><strong>{v.role}</strong> — {v.organization}</span>
@@ -207,11 +220,11 @@ export const ExecutiveTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'courses':
         if (data.courses.length === 0) return null;
         return (
-          <section key="courses" className="resume-section mb-1.5">
+          <section key="courses" className={`resume-section ${sSpacing}`}>
             <h2 className="text-xs font-bold uppercase tracking-widest text-gray-950 pb-0.5 mb-1 border-b-2 border-gray-800">
               {getTitle('courses', 'Executive Education')}
             </h2>
-            <div className="space-y-0.5 text-xs">
+            <div className={`${iSpacing} text-xs`}>
               {data.courses.map((c) => (
                 <div key={c.id} className="flex justify-between items-baseline">
                   <span><strong>{c.name}</strong> ({c.platform})</span>
@@ -225,7 +238,7 @@ export const ExecutiveTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'languages':
         if (data.languages.length === 0) return null;
         return (
-          <section key="languages" className="resume-section mb-1">
+          <section key="languages" className={`resume-section ${sSpacing}`}>
             <h2 className="text-xs font-bold uppercase tracking-widest text-gray-950 pb-0.5 mb-1 border-b-2 border-gray-800">
               {getTitle('languages', 'Languages')}
             </h2>
@@ -244,7 +257,7 @@ export const ExecutiveTemplate: React.FC<TemplateProps> = ({ data }) => {
 
   return (
     <div className="text-gray-900 bg-white w-full leading-normal">
-      <header className="text-center pb-2 mb-2 border-b-2 border-gray-900">
+      <header className={`text-center pb-2 ${sSpacing} border-b-2 border-gray-900`}>
         <h1 className="text-2xl sm:text-3xl font-extrabold uppercase tracking-wide text-gray-950 mb-0.5 font-serif">
           {personalDetails.fullName || 'YOUR NAME'}
         </h1>
@@ -264,7 +277,7 @@ export const ExecutiveTemplate: React.FC<TemplateProps> = ({ data }) => {
       </header>
 
       {personalDetails.summary.trim() && (
-        <section className="resume-section mb-2">
+        <section className={`resume-section ${sSpacing}`}>
           <h2 className="text-xs font-bold uppercase tracking-widest text-gray-950 pb-0.5 mb-1 border-b-2 border-gray-800">
             Executive Summary
           </h2>

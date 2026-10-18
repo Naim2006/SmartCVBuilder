@@ -44,6 +44,7 @@ export function sanitizeResumeData(data: Partial<ResumeData>): ResumeData {
       fontSize: data.settings?.fontSize || 'normal',
       spacing: data.settings?.spacing || 'normal',
       primaryColor: data.settings?.primaryColor || '#0f172a',
+      paperSize: data.settings?.paperSize || 'a4',
       sectionOrder: Array.isArray(data.settings?.sectionOrder) ? data.settings.sectionOrder : [...DEFAULT_SECTION_ORDER],
       sectionVisibility: data.settings?.sectionVisibility || { ...DEFAULT_SECTION_VISIBILITY },
       showIcons: data.settings?.showIcons ?? true,

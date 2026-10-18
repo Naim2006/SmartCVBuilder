@@ -10,6 +10,19 @@ export const ModernTemplate: React.FC<TemplateProps> = ({ data }) => {
   const isVisible = (key: string) => settings.sectionVisibility[key] !== false;
   const getTitle = (key: string, def: string) => settings.sectionTitles?.[key] || def;
 
+  // Dynamic spacing based on user preference or page fill mode
+  const sSpacing = {
+    compact: 'mb-1.5',
+    normal: 'mb-2.5',
+    relaxed: 'mb-3.5',
+  }[settings.spacing || 'normal'];
+
+  const iSpacing = {
+    compact: 'space-y-1',
+    normal: 'space-y-1.5',
+    relaxed: 'space-y-2',
+  }[settings.spacing || 'normal'];
+
   const renderSectionByKey = (key: string) => {
     if (!isVisible(key)) return null;
 
@@ -17,12 +30,12 @@ export const ModernTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'experience':
         if (data.experience.length === 0 || !data.experience.some((e) => e.company || e.role)) return null;
         return (
-          <section key="experience" className="resume-section mb-1.5">
+          <section key="experience" className={`resume-section ${sSpacing}`}>
             <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 mb-0.5 flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full" style={{ backgroundColor: settings.primaryColor }}></span>
               {getTitle('experience', 'Experience')}
             </h2>
-            <div className="space-y-1 pl-3 border-l-2 border-gray-100">
+            <div className={`${iSpacing} pl-3 border-l-2 border-gray-100`}>
               {data.experience.map((exp) => {
                 if (!exp.company && !exp.role) return null;
                 return (
@@ -54,12 +67,12 @@ export const ModernTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'education':
         if (data.education.length === 0 || !data.education.some((e) => e.institution || e.degree)) return null;
         return (
-          <section key="education" className="resume-section mb-1.5">
+          <section key="education" className={`resume-section ${sSpacing}`}>
             <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 mb-0.5 flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full" style={{ backgroundColor: settings.primaryColor }}></span>
               {getTitle('education', 'Education')}
             </h2>
-            <div className="space-y-1 pl-3 border-l-2 border-gray-100">
+            <div className={`${iSpacing} pl-3 border-l-2 border-gray-100`}>
               {data.education.map((edu) => {
                 if (!edu.institution && !edu.degree) return null;
                 return (
@@ -94,7 +107,7 @@ export const ModernTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'skills':
         if (data.skillCategories.length === 0 || !data.skillCategories.some((c) => c.skills.length > 0)) return null;
         return (
-          <section key="skills" className="resume-section mb-1.5">
+          <section key="skills" className={`resume-section ${sSpacing}`}>
             <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 mb-0.5 flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full" style={{ backgroundColor: settings.primaryColor }}></span>
               {getTitle('skills', 'Key Skills')}
@@ -116,12 +129,12 @@ export const ModernTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'projects':
         if (data.projects.length === 0 || !data.projects.some((p) => p.name)) return null;
         return (
-          <section key="projects" className="resume-section mb-1.5">
+          <section key="projects" className={`resume-section ${sSpacing}`}>
             <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 mb-0.5 flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full" style={{ backgroundColor: settings.primaryColor }}></span>
               {getTitle('projects', 'Projects')}
             </h2>
-            <div className="space-y-1 pl-3 border-l-2 border-gray-100">
+            <div className={`${iSpacing} pl-3 border-l-2 border-gray-100`}>
               {data.projects.map((proj) => {
                 if (!proj.name) return null;
                 return (
@@ -177,12 +190,12 @@ export const ModernTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'certifications':
         if (data.certifications.length === 0 || !data.certifications.some((c) => c.name)) return null;
         return (
-          <section key="certifications" className="resume-section mb-1.5">
+          <section key="certifications" className={`resume-section ${sSpacing}`}>
             <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 mb-0.5 flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full" style={{ backgroundColor: settings.primaryColor }}></span>
               {getTitle('certifications', 'Certifications')}
             </h2>
-            <div className="pl-3 border-l-2 border-gray-100 space-y-0.5 text-xs text-gray-700">
+            <div className={`pl-3 border-l-2 border-gray-100 ${iSpacing} text-xs text-gray-700`}>
               {data.certifications.map((c) => (
                 <div key={c.id} className="flex justify-between items-baseline">
                   <div>
@@ -211,12 +224,12 @@ export const ModernTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'volunteer':
         if (data.volunteer.length === 0) return null;
         return (
-          <section key="volunteer" className="resume-section mb-1.5">
+          <section key="volunteer" className={`resume-section ${sSpacing}`}>
             <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 mb-0.5 flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full" style={{ backgroundColor: settings.primaryColor }}></span>
               {getTitle('volunteer', 'Volunteer Work')}
             </h2>
-            <div className="pl-3 border-l-2 border-gray-100 space-y-0.5 text-xs">
+            <div className={`pl-3 border-l-2 border-gray-100 ${iSpacing} text-xs`}>
               {data.volunteer.map((v) => (
                 <div key={v.id} className="flex justify-between items-baseline">
                   <span><strong>{v.role}</strong> — {v.organization}</span>
@@ -230,12 +243,12 @@ export const ModernTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'awards':
         if (data.awards.length === 0) return null;
         return (
-          <section key="awards" className="resume-section mb-1.5">
+          <section key="awards" className={`resume-section ${sSpacing}`}>
             <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 mb-0.5 flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full" style={{ backgroundColor: settings.primaryColor }}></span>
               {getTitle('awards', 'Honors & Awards')}
             </h2>
-            <div className="pl-3 border-l-2 border-gray-100 space-y-0.5 text-xs">
+            <div className={`pl-3 border-l-2 border-gray-100 ${iSpacing} text-xs`}>
               {data.awards.map((a) => (
                 <div key={a.id} className="flex justify-between items-baseline">
                   <span><strong>{a.title}</strong> — {a.issuer}</span>
@@ -249,12 +262,12 @@ export const ModernTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'courses':
         if (data.courses.length === 0) return null;
         return (
-          <section key="courses" className="resume-section mb-1.5">
+          <section key="courses" className={`resume-section ${sSpacing}`}>
             <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 mb-0.5 flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full" style={{ backgroundColor: settings.primaryColor }}></span>
               {getTitle('courses', 'Professional Training')}
             </h2>
-            <div className="pl-3 border-l-2 border-gray-100 space-y-0.5 text-xs">
+            <div className={`pl-3 border-l-2 border-gray-100 ${iSpacing} text-xs`}>
               {data.courses.map((c) => (
                 <div key={c.id} className="flex justify-between items-baseline">
                   <span><strong>{c.name}</strong> ({c.platform})</span>
@@ -280,7 +293,7 @@ export const ModernTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'languages':
         if (data.languages.length === 0) return null;
         return (
-          <section key="languages" className="resume-section mb-1">
+          <section key="languages" className={`resume-section ${sSpacing}`}>
             <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 mb-0.5 flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full" style={{ backgroundColor: settings.primaryColor }}></span>
               {getTitle('languages', 'Languages')}
@@ -298,12 +311,12 @@ export const ModernTemplate: React.FC<TemplateProps> = ({ data }) => {
         return (
           <React.Fragment key="custom">
             {data.customSections.map((cs) => (
-              <section key={cs.id} className="resume-section mb-2">
+              <section key={cs.id} className={`resume-section ${sSpacing}`}>
                 <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 mb-1 flex items-center gap-1.5">
                   <span className="w-2 h-2 rounded-full" style={{ backgroundColor: settings.primaryColor }}></span>
                   {cs.heading}
                 </h2>
-                <div className="pl-3 border-l-2 border-gray-100 space-y-1 text-xs">
+                <div className={`pl-3 border-l-2 border-gray-100 ${iSpacing} text-xs`}>
                   {cs.items.map((item) => (
                     <div key={item.id}>
                       <div className="flex justify-between font-bold text-gray-950">
@@ -328,7 +341,7 @@ export const ModernTemplate: React.FC<TemplateProps> = ({ data }) => {
   return (
     <div className="text-gray-900 bg-white w-full leading-normal">
       {/* Header */}
-      <header className="pb-2 mb-2 border-b-2" style={{ borderColor: settings.primaryColor }}>
+      <header className={`pb-2 ${sSpacing} border-b-2`} style={{ borderColor: settings.primaryColor }}>
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-1.5">
           <div>
             <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-gray-950">
@@ -358,7 +371,7 @@ export const ModernTemplate: React.FC<TemplateProps> = ({ data }) => {
 
       {/* Summary */}
       {personalDetails.summary.trim() && (
-        <section className="resume-section mb-2">
+        <section className={`resume-section ${sSpacing}`}>
           <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 mb-0.5 flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full" style={{ backgroundColor: settings.primaryColor }}></span>
             Professional Summary

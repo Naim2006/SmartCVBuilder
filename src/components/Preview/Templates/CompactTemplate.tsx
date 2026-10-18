@@ -10,6 +10,19 @@ export const CompactTemplate: React.FC<TemplateProps> = ({ data }) => {
   const isVisible = (key: string) => settings.sectionVisibility[key] !== false;
   const getTitle = (key: string, def: string) => settings.sectionTitles?.[key] || def;
 
+  // Dynamic spacing based on user preference or page fill mode
+  const sSpacing = {
+    compact: 'mb-1.5',
+    normal: 'mb-2.5',
+    relaxed: 'mb-3.5',
+  }[settings.spacing || 'normal'];
+
+  const iSpacing = {
+    compact: 'space-y-1',
+    normal: 'space-y-1.5',
+    relaxed: 'space-y-2',
+  }[settings.spacing || 'normal'];
+
   const contactItems = [
     personalDetails.email,
     personalDetails.phone,
@@ -26,11 +39,11 @@ export const CompactTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'experience':
         if (data.experience.length === 0 || !data.experience.some((e) => e.company || e.role)) return null;
         return (
-          <section key="experience" className="resume-section mb-2">
+          <section key="experience" className={`resume-section ${sSpacing}`}>
             <h2 className="text-[11px] font-bold uppercase tracking-wider text-gray-950 border-b border-gray-400 pb-0.5 mb-1">
               {getTitle('experience', 'Experience')}
             </h2>
-            <div className="space-y-1">
+            <div className={iSpacing}>
               {data.experience.map((exp) => {
                 if (!exp.company && !exp.role) return null;
                 return (
@@ -58,11 +71,11 @@ export const CompactTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'education':
         if (data.education.length === 0 || !data.education.some((e) => e.institution || e.degree)) return null;
         return (
-          <section key="education" className="resume-section mb-2">
+          <section key="education" className={`resume-section ${sSpacing}`}>
             <h2 className="text-[11px] font-bold uppercase tracking-wider text-gray-950 border-b border-gray-400 pb-0.5 mb-1">
               {getTitle('education', 'Education')}
             </h2>
-            <div className="space-y-1">
+            <div className={iSpacing}>
               {data.education.map((edu) => (
                 <div key={edu.id} className="resume-item text-[11px] flex justify-between items-baseline">
                   <span>
@@ -79,7 +92,7 @@ export const CompactTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'skills':
         if (data.skillCategories.length === 0 || !data.skillCategories.some((c) => c.skills.length > 0)) return null;
         return (
-          <section key="skills" className="resume-section mb-2">
+          <section key="skills" className={`resume-section ${sSpacing}`}>
             <h2 className="text-[11px] font-bold uppercase tracking-wider text-gray-950 border-b border-gray-400 pb-0.5 mb-1">
               {getTitle('skills', 'Skills')}
             </h2>
@@ -97,11 +110,11 @@ export const CompactTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'projects':
         if (data.projects.length === 0 || !data.projects.some((p) => p.name)) return null;
         return (
-          <section key="projects" className="resume-section mb-2">
+          <section key="projects" className={`resume-section ${sSpacing}`}>
             <h2 className="text-[11px] font-bold uppercase tracking-wider text-gray-950 border-b border-gray-400 pb-0.5 mb-1">
               {getTitle('projects', 'Projects')}
             </h2>
-            <div className="space-y-1 text-[11px]">
+            <div className={`${iSpacing} text-[11px]`}>
               {data.projects.map((proj) => (
                 <div key={proj.id} className="resume-item">
                   <div className="flex justify-between items-baseline font-bold text-gray-950">
@@ -139,11 +152,11 @@ export const CompactTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'certifications':
         if (data.certifications.length === 0) return null;
         return (
-          <section key="certifications" className="resume-section mb-1.5">
+          <section key="certifications" className={`resume-section ${sSpacing}`}>
             <h2 className="text-[11px] font-bold uppercase tracking-wider text-gray-950 border-b border-gray-400 pb-0.5 mb-1">
               {getTitle('certifications', 'Certifications')}
             </h2>
-            <div className="space-y-0.5 text-[11px] text-gray-800">
+            <div className={`${iSpacing} text-[11px] text-gray-800`}>
               {data.certifications.map((c) => (
                 <div key={c.id} className="flex justify-between items-baseline">
                   <span><strong>{c.name}</strong> ({c.issuer})</span>
@@ -169,11 +182,11 @@ export const CompactTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'volunteer':
         if (data.volunteer.length === 0) return null;
         return (
-          <section key="volunteer" className="resume-section mb-1.5">
+          <section key="volunteer" className={`resume-section ${sSpacing}`}>
             <h2 className="text-[11px] font-bold uppercase tracking-wider text-gray-950 border-b border-gray-400 pb-0.5 mb-1">
               {getTitle('volunteer', 'Volunteering')}
             </h2>
-            <div className="space-y-0.5 text-[11px]">
+            <div className={`${iSpacing} text-[11px]`}>
               {data.volunteer.map((v) => (
                 <div key={v.id} className="flex justify-between items-baseline">
                   <span><strong>{v.role}</strong> — {v.organization}</span>
@@ -187,11 +200,11 @@ export const CompactTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'awards':
         if (data.awards.length === 0) return null;
         return (
-          <section key="awards" className="resume-section mb-1.5">
+          <section key="awards" className={`resume-section ${sSpacing}`}>
             <h2 className="text-[11px] font-bold uppercase tracking-wider text-gray-950 border-b border-gray-400 pb-0.5 mb-1">
               {getTitle('awards', 'Awards')}
             </h2>
-            <div className="space-y-0.5 text-[11px]">
+            <div className={`${iSpacing} text-[11px]`}>
               {data.awards.map((a) => (
                 <div key={a.id} className="flex justify-between items-baseline">
                   <span><strong>{a.title}</strong> — {a.issuer}</span>
@@ -205,11 +218,11 @@ export const CompactTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'courses':
         if (data.courses.length === 0) return null;
         return (
-          <section key="courses" className="resume-section mb-1.5">
+          <section key="courses" className={`resume-section ${sSpacing}`}>
             <h2 className="text-[11px] font-bold uppercase tracking-wider text-gray-950 border-b border-gray-400 pb-0.5 mb-1">
               {getTitle('courses', 'Training')}
             </h2>
-            <div className="space-y-0.5 text-[11px]">
+            <div className={`${iSpacing} text-[11px]`}>
               {data.courses.map((c) => (
                 <div key={c.id} className="flex justify-between items-baseline">
                   <span><strong>{c.name}</strong> ({c.platform})</span>
@@ -223,7 +236,7 @@ export const CompactTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'languages':
         if (data.languages.length === 0) return null;
         return (
-          <section key="languages" className="resume-section mb-1">
+          <section key="languages" className={`resume-section ${sSpacing}`}>
             <h2 className="text-[11px] font-bold uppercase tracking-wider text-gray-950 border-b border-gray-400 pb-0.5 mb-1">
               {getTitle('languages', 'Languages')}
             </h2>
@@ -242,7 +255,7 @@ export const CompactTemplate: React.FC<TemplateProps> = ({ data }) => {
 
   return (
     <div className="text-gray-900 bg-white w-full leading-tight">
-      <header className="mb-2 pb-1 border-b border-gray-400">
+      <header className={`pb-1 ${sSpacing} border-b border-gray-400`}>
         <h1 className="text-xl font-bold tracking-tight text-gray-950">
           {personalDetails.fullName || 'YOUR NAME'}
         </h1>
@@ -259,7 +272,7 @@ export const CompactTemplate: React.FC<TemplateProps> = ({ data }) => {
       </header>
 
       {personalDetails.summary.trim() && (
-        <section className="resume-section mb-1.5">
+        <section className={`resume-section ${sSpacing}`}>
           <p className="text-[11px] text-gray-800 leading-tight">{personalDetails.summary}</p>
         </section>
       )}

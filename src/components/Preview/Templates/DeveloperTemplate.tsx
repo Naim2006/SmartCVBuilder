@@ -10,6 +10,19 @@ export const DeveloperTemplate: React.FC<TemplateProps> = ({ data }) => {
   const isVisible = (key: string) => settings.sectionVisibility[key] !== false;
   const getTitle = (key: string, def: string) => settings.sectionTitles?.[key] || def;
 
+  // Dynamic spacing based on user preference or page fill mode
+  const sSpacing = {
+    compact: 'mb-1.5',
+    normal: 'mb-2.5',
+    relaxed: 'mb-3.5',
+  }[settings.spacing || 'normal'];
+
+  const iSpacing = {
+    compact: 'space-y-1',
+    normal: 'space-y-1.5',
+    relaxed: 'space-y-2',
+  }[settings.spacing || 'normal'];
+
   const contactItems = [
     personalDetails.email,
     personalDetails.phone,
@@ -26,7 +39,7 @@ export const DeveloperTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'skills':
         if (data.skillCategories.length === 0 || !data.skillCategories.some((c) => c.skills.length > 0)) return null;
         return (
-          <section key="skills" className="resume-section mb-2">
+          <section key="skills" className={`resume-section ${sSpacing}`}>
             <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 font-mono mb-1 bg-gray-100 px-1 py-0.5 inline-block">
               {getTitle('skills', 'TECHNICAL ARSENAL')}
             </h2>
@@ -49,11 +62,11 @@ export const DeveloperTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'experience':
         if (data.experience.length === 0 || !data.experience.some((e) => e.company || e.role)) return null;
         return (
-          <section key="experience" className="resume-section mb-2">
+          <section key="experience" className={`resume-section ${sSpacing}`}>
             <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 font-mono mb-1 bg-gray-100 px-1 py-0.5 inline-block">
               {getTitle('experience', 'ENGINEERING EXPERIENCE')}
             </h2>
-            <div className="space-y-1.5">
+            <div className={iSpacing}>
               {data.experience.map((exp) => {
                 if (!exp.company && !exp.role) return null;
                 return (
@@ -82,11 +95,11 @@ export const DeveloperTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'projects':
         if (data.projects.length === 0 || !data.projects.some((p) => p.name)) return null;
         return (
-          <section key="projects" className="resume-section mb-2">
+          <section key="projects" className={`resume-section ${sSpacing}`}>
             <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 font-mono mb-1 bg-gray-100 px-1 py-0.5 inline-block">
               {getTitle('projects', 'FEATURED SYSTEMS & PROJECTS')}
             </h2>
-            <div className="space-y-1.5">
+            <div className={iSpacing}>
               {data.projects.map((proj) => {
                 if (!proj.name) return null;
                 return (
@@ -142,11 +155,11 @@ export const DeveloperTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'education':
         if (data.education.length === 0 || !data.education.some((e) => e.institution || e.degree)) return null;
         return (
-          <section key="education" className="resume-section mb-2">
+          <section key="education" className={`resume-section ${sSpacing}`}>
             <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 font-mono mb-1 bg-gray-100 px-1 py-0.5 inline-block">
               {getTitle('education', 'EDUCATION')}
             </h2>
-            <div className="space-y-1">
+            <div className={iSpacing}>
               {data.education.map((edu) => (
                 <div key={edu.id} className="resume-item text-xs flex justify-between items-baseline">
                   <div>
@@ -166,11 +179,11 @@ export const DeveloperTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'certifications':
         if (data.certifications.length === 0 || !data.certifications.some((c) => c.name)) return null;
         return (
-          <section key="certifications" className="resume-section mb-1.5">
+          <section key="certifications" className={`resume-section ${sSpacing}`}>
             <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 font-mono mb-0.5 bg-gray-100 px-1 py-0.5 inline-block">
               {getTitle('certifications', 'CERTIFICATIONS')}
             </h2>
-            <div className="text-xs text-gray-800 space-y-0.5">
+            <div className={`text-xs text-gray-800 ${iSpacing}`}>
               {data.certifications.map((c) => (
                 <div key={c.id} className="flex justify-between items-baseline">
                   <div>
@@ -199,11 +212,11 @@ export const DeveloperTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'volunteer':
         if (data.volunteer.length === 0) return null;
         return (
-          <section key="volunteer" className="resume-section mb-1.5">
+          <section key="volunteer" className={`resume-section ${sSpacing}`}>
             <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 font-mono mb-0.5 bg-gray-100 px-1 py-0.5 inline-block">
               {getTitle('volunteer', 'COMMUNITY & VOLUNTEERING')}
             </h2>
-            <div className="space-y-0.5 text-xs">
+            <div className={`${iSpacing} text-xs`}>
               {data.volunteer.map((v) => (
                 <div key={v.id} className="flex justify-between items-baseline">
                   <span><strong>{v.role}</strong> @ {v.organization}</span>
@@ -217,11 +230,11 @@ export const DeveloperTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'awards':
         if (data.awards.length === 0) return null;
         return (
-          <section key="awards" className="resume-section mb-1.5">
+          <section key="awards" className={`resume-section ${sSpacing}`}>
             <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 font-mono mb-0.5 bg-gray-100 px-1 py-0.5 inline-block">
               {getTitle('awards', 'HONORS & AWARDS')}
             </h2>
-            <div className="space-y-0.5 text-xs">
+            <div className={`${iSpacing} text-xs`}>
               {data.awards.map((a) => (
                 <div key={a.id} className="flex justify-between items-baseline">
                   <span><strong>{a.title}</strong> — {a.issuer}</span>
@@ -235,11 +248,11 @@ export const DeveloperTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'courses':
         if (data.courses.length === 0) return null;
         return (
-          <section key="courses" className="resume-section mb-1.5">
+          <section key="courses" className={`resume-section ${sSpacing}`}>
             <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 font-mono mb-0.5 bg-gray-100 px-1 py-0.5 inline-block">
               {getTitle('courses', 'TRAINING & CONTINUED ED')}
             </h2>
-            <div className="space-y-0.5 text-xs">
+            <div className={`${iSpacing} text-xs`}>
               {data.courses.map((c) => (
                 <div key={c.id} className="flex justify-between items-baseline">
                   <span><strong>{c.name}</strong> ({c.platform})</span>
@@ -253,7 +266,7 @@ export const DeveloperTemplate: React.FC<TemplateProps> = ({ data }) => {
       case 'languages':
         if (data.languages.length === 0) return null;
         return (
-          <section key="languages" className="resume-section mb-1">
+          <section key="languages" className={`resume-section ${sSpacing}`}>
             <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 font-mono mb-0.5 bg-gray-100 px-1 py-0.5 inline-block">
               {getTitle('languages', 'LANGUAGES')}
             </h2>
@@ -272,7 +285,7 @@ export const DeveloperTemplate: React.FC<TemplateProps> = ({ data }) => {
 
   return (
     <div className="text-gray-900 bg-white w-full leading-normal">
-      <header className="pb-1.5 mb-1.5 border-b-2 border-gray-900">
+      <header className={`pb-1.5 ${sSpacing} border-b-2 border-gray-900`}>
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline">
           <h1 className="text-xl sm:text-2xl font-black tracking-tight text-gray-950 font-mono">
             {personalDetails.fullName || 'YOUR NAME'}
@@ -293,7 +306,7 @@ export const DeveloperTemplate: React.FC<TemplateProps> = ({ data }) => {
       </header>
 
       {personalDetails.summary.trim() && (
-        <section className="resume-section mb-1.5">
+        <section className={`resume-section ${sSpacing}`}>
           <p className="text-xs text-gray-800 leading-snug">{personalDetails.summary}</p>
         </section>
       )}

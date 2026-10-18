@@ -173,15 +173,21 @@ export default function App() {
   // PDF Export
   const handlePrintPdf = () => {
     setIsGeneratingPdf(true);
-    confetti({
-      particleCount: 50,
-      spread: 70,
-      origin: { y: 0.7 },
-    });
+    const originalTitle = document.title;
+    const name = activeDocument?.data.personalDetails.fullName || 'Resume';
+    document.title = `${name.replace(/\s+/g, '_')}_CV`;
+
+    // Ensure preview tab is active so mobile/tablet view is rendered
+    setMobileTab('preview');
+
+    // Clean up any stray confetti canvas before print dialog opens so print is pristine
+    document.querySelectorAll('canvas').forEach((c) => c.remove());
+
     setTimeout(() => {
       window.print();
+      document.title = originalTitle;
       setIsGeneratingPdf(false);
-    }, 250);
+    }, 150);
   };
 
   // Plain Text Download & Copy
@@ -318,7 +324,7 @@ export default function App() {
             </div>
 
             {/* Main Builder Workspace */}
-            <div className="flex-1 max-w-[1700px] w-full mx-auto p-3 sm:p-5 lg:p-6 flex flex-col lg:flex-row gap-6">
+            <div className="flex-1 max-w-[1700px] w-full mx-auto p-3 sm:p-5 lg:p-6 flex flex-col lg:flex-row gap-6 print:p-0 print:m-0 print:block">
               {/* Left Column: ATS Score & Editor Forms */}
               <section
                 className={`no-print lg:w-[48%] xl:w-[45%] flex flex-col gap-4 ${
@@ -343,8 +349,8 @@ export default function App() {
 
               {/* Right Column: Live Document Preview */}
               <section
-                className={`lg:w-[52%] xl:w-[55%] flex flex-col ${
-                  mobileTab === 'editor' ? 'hidden lg:flex' : 'flex'
+                className={`lg:w-[52%] xl:w-[55%] flex flex-col print:w-full print:block print:p-0 print:m-0 ${
+                  mobileTab === 'editor' ? 'hidden lg:flex print:flex' : 'flex'
                 }`}
               >
                 <PreviewControls
@@ -365,7 +371,7 @@ export default function App() {
                 />
 
                 {/* Canvas */}
-                <div className="flex-1 overflow-auto bg-slate-200/60 border border-slate-300/80 rounded-2xl p-4 sm:p-8 flex justify-center items-start shadow-inner min-h-[700px]">
+                <div className="flex-1 overflow-auto bg-slate-200/60 border border-slate-300/80 rounded-2xl p-4 sm:p-8 flex justify-center items-start shadow-inner min-h-[700px] print:bg-white print:border-none print:p-0 print:m-0 print:shadow-none print:min-h-0 print:overflow-visible">
                   <ResumeDocument data={activeDocument.data} scale={scale} />
                 </div>
               </section>

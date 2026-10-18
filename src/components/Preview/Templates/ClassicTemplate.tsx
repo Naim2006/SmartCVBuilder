@@ -8,6 +8,7 @@ interface TemplateProps {
 export const ClassicTemplate: React.FC<TemplateProps> = ({ data }) => {
   const { personalDetails, settings } = data;
   const isVisible = (key: string) => settings.sectionVisibility[key] !== false;
+  const getTitle = (key: string, def: string) => settings.sectionTitles?.[key] || def;
 
   const contactItems = [
     personalDetails.phone,
@@ -32,7 +33,7 @@ export const ClassicTemplate: React.FC<TemplateProps> = ({ data }) => {
               className="text-xs font-bold uppercase tracking-wider pb-0.5 mb-1.5 border-b border-gray-400"
               style={{ color: settings.primaryColor }}
             >
-              Work Experience
+              {getTitle('experience', 'Work Experience')}
             </h2>
             <div className="space-y-2.5">
               {data.experience.map((exp) => {
@@ -71,7 +72,7 @@ export const ClassicTemplate: React.FC<TemplateProps> = ({ data }) => {
               className="text-xs font-bold uppercase tracking-wider pb-0.5 mb-1.5 border-b border-gray-400"
               style={{ color: settings.primaryColor }}
             >
-              Education
+              {getTitle('education', 'Education')}
             </h2>
             <div className="space-y-2">
               {data.education.map((edu) => {
@@ -112,7 +113,7 @@ export const ClassicTemplate: React.FC<TemplateProps> = ({ data }) => {
               className="text-xs font-bold uppercase tracking-wider pb-0.5 mb-1.5 border-b border-gray-400"
               style={{ color: settings.primaryColor }}
             >
-              Skills & Competencies
+              {getTitle('skills', 'Skills & Competencies')}
             </h2>
             <div className="space-y-1 text-xs text-gray-800">
               {data.skillCategories.map((cat) => {
@@ -136,7 +137,7 @@ export const ClassicTemplate: React.FC<TemplateProps> = ({ data }) => {
               className="text-xs font-bold uppercase tracking-wider pb-0.5 mb-1.5 border-b border-gray-400"
               style={{ color: settings.primaryColor }}
             >
-              Key Projects
+              {getTitle('projects', 'Key Projects')}
             </h2>
             <div className="space-y-2">
               {data.projects.map((proj) => {

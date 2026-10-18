@@ -35,31 +35,41 @@
 /* Print Styles for Pristine ATS Vector PDF Export */
 @media print {
   @page {
-    margin: 10mm;
     size: A4 portrait;
+    margin: 0 !important;
   }
 
-  body {
-    background: #ffffff !important;
-    color: #000000 !important;
+  html, body {
     margin: 0 !important;
     padding: 0 !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
+    background: #ffffff !important;
+    color: #000000 !important;
+    width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
 
-  /* Hide navigation, toolbars, buttons, scorecards */
+  /* Hide all non-printable UI, headers, footers, navigation, canvas, buttons */
   .no-print,
   header,
   footer,
   aside,
   button,
-  nav {
+  nav,
+  canvas,
+  select {
     display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    width: 0 !important;
   }
 
-  /* Ensure the preview container spans full page without shadows or borders */
+  /* Make sure container and document are block, full width, and visible */
   #cv-preview-container {
+    display: block !important;
+    visibility: visible !important;
     width: 100% !important;
     max-width: 100% !important;
     margin: 0 !important;
@@ -67,29 +77,45 @@
     box-shadow: none !important;
     border: none !important;
     transform: none !important;
-    display: block !important;
+    position: static !important;
   }
 
   #cv-document {
+    display: block !important;
+    visibility: visible !important;
     box-shadow: none !important;
     border: none !important;
     border-radius: 0 !important;
     margin: 0 auto !important;
-    padding: 0 !important;
+    padding: 12mm 15mm !important;
     width: 100% !important;
     max-width: 100% !important;
     min-height: auto !important;
+    background: #ffffff !important;
+    color: #000000 !important;
   }
 
-  /* Prevent page breaks inside critical sections */
+  #cv-document * {
+    visibility: visible !important;
+  }
+
+  /* Strict 1-Page mode enforcement */
+  .strict-one-page {
+    max-height: 295mm !important;
+    overflow: hidden !important;
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+
+  /* Prevent awkward mid-item page breaks */
   .resume-section {
-    page-break-inside: avoid;
-    break-inside: avoid;
+    page-break-inside: auto;
+    break-inside: auto;
   }
 
   .resume-item {
-    page-break-inside: avoid;
-    break-inside: avoid;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
   }
 
   a {

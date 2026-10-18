@@ -1,7 +1,8 @@
-export type TemplateType = 'classic' | 'modern' | 'compact' | 'executive' | 'developer';
+export type TemplateType = 'classic' | 'modern' | 'compact' | 'executive' | 'developer' | 'freeform';
 export type FontType = 'inter' | 'roboto' | 'arial' | 'georgia' | 'times' | 'garamond';
-export type FontSize = 'compact' | 'normal' | 'spacious';
+export type FontSize = 'xsmall' | 'compact' | 'normal' | 'spacious' | 'large';
 export type SpacingType = 'compact' | 'normal' | 'relaxed';
+export type MarginType = 'compact' | 'normal' | 'spacious';
 
 export interface PersonalDetails {
   fullName: string;
@@ -141,9 +142,12 @@ export interface ResumeSettings {
   font: FontType;
   fontSize: FontSize;
   spacing: SpacingType;
+  marginSize?: MarginType;
+  fitOnePage?: boolean;
   primaryColor: string;
   sectionOrder: string[];
   sectionVisibility: Record<string, boolean>;
+  sectionTitles?: Record<string, string>;
   showIcons: boolean;
 }
 
@@ -160,6 +164,8 @@ export interface ResumeData {
   languages: LanguageItem[];
   publications: PublicationItem[];
   customSections: CustomSection[];
+  freeformMode?: boolean;
+  freeformText?: string;
   settings: ResumeSettings;
 }
 

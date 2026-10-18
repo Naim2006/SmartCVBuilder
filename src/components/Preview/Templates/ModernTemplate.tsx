@@ -8,6 +8,7 @@ interface TemplateProps {
 export const ModernTemplate: React.FC<TemplateProps> = ({ data }) => {
   const { personalDetails, settings } = data;
   const isVisible = (key: string) => settings.sectionVisibility[key] !== false;
+  const getTitle = (key: string, def: string) => settings.sectionTitles?.[key] || def;
 
   const renderSectionByKey = (key: string) => {
     if (!isVisible(key)) return null;
@@ -19,7 +20,7 @@ export const ModernTemplate: React.FC<TemplateProps> = ({ data }) => {
           <section key="experience" className="resume-section mb-3.5">
             <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 mb-1.5 flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full" style={{ backgroundColor: settings.primaryColor }}></span>
-              Experience
+              {getTitle('experience', 'Experience')}
             </h2>
             <div className="space-y-3 pl-3 border-l-2 border-gray-100">
               {data.experience.map((exp) => {
@@ -56,7 +57,7 @@ export const ModernTemplate: React.FC<TemplateProps> = ({ data }) => {
           <section key="education" className="resume-section mb-3.5">
             <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 mb-1.5 flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full" style={{ backgroundColor: settings.primaryColor }}></span>
-              Education
+              {getTitle('education', 'Education')}
             </h2>
             <div className="space-y-2 pl-3 border-l-2 border-gray-100">
               {data.education.map((edu) => {
@@ -95,7 +96,7 @@ export const ModernTemplate: React.FC<TemplateProps> = ({ data }) => {
           <section key="skills" className="resume-section mb-3.5">
             <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 mb-1.5 flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full" style={{ backgroundColor: settings.primaryColor }}></span>
-              Key Skills
+              {getTitle('skills', 'Key Skills')}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2 pl-3 border-l-2 border-gray-100 text-xs">
               {data.skillCategories.map((cat) => {
@@ -117,7 +118,7 @@ export const ModernTemplate: React.FC<TemplateProps> = ({ data }) => {
           <section key="projects" className="resume-section mb-3.5">
             <h2 className="text-xs font-bold uppercase tracking-wider text-gray-950 mb-1.5 flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full" style={{ backgroundColor: settings.primaryColor }}></span>
-              Projects
+              {getTitle('projects', 'Projects')}
             </h2>
             <div className="space-y-2 pl-3 border-l-2 border-gray-100">
               {data.projects.map((proj) => {
